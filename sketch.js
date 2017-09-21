@@ -10,7 +10,7 @@ var previous;
 var song;
 
 function setup(){
- 	song = loadSound('assets/01 - Andy McKee - Drifting.mp3');
+ 	song = loadSound('assets/01 This Is Gospel.m4a');
   createCanvas(windowWidth, windowHeight);
   current = createVector(0,0);
   previous = createVector(0,0);
@@ -55,7 +55,7 @@ function mousePressed() {
 }
 
 function mouseDragged(){
-	if(!song.isPlaying()){
+	if(!song.isPlaying() || song.isPaused()){
 		song.play();
 	}
 }
@@ -63,7 +63,7 @@ function mouseDragged(){
 function mouseReleased() {
   painting = false;
   if(song.isPlaying()){
-  	song.stop();
+  	song.pause();
   }
 }
 
