@@ -19,7 +19,11 @@ I am not going to go through setting up Apache on all 3 of your machines, so we'
 The command is:
 
 ```php
-cd CS4436
 php -S localhost:8000
 ```
+
+**Useful video for future use if we want to use an application like Cyberduck to push live to a site domain**
+https://www.youtube.com/watch?v=lbKMZa-CZ_Y&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&t=686
+
+**I think if the PHP command is a little too much** using the [Brackets](http://brackets.io/) editor would be a great tool because of its capability to automatically run a server for you without using php commands or use cyberduck
 
