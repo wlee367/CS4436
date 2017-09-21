@@ -8,9 +8,18 @@ var next = 0;
 var current;
 var previous;
 var song;
+var songArray = [];
 
+function preload(){
+	songArray = [
+		'assets/01 This Is Gospel.m4a',
+		'assets/02 Miss Jackson (feat. Lolo).m4a',
+	];
+
+ 	song = loadSound(songArray[1]);
+
+}
 function setup(){
- 	song = loadSound('assets/01 This Is Gospel.m4a');
   createCanvas(windowWidth, windowHeight);
   current = createVector(0,0);
   previous = createVector(0,0);
@@ -38,6 +47,7 @@ function draw(){
     paths[i].update();
     paths[i].display();
   }
+  console.log(paths);
 }
 
 
