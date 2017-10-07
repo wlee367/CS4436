@@ -10,6 +10,8 @@ var previous;
 var song;
 var songArray = [];
 
+var paintColour;
+
 function preload(){
 	songArray = [
 		'assets/01 This Is Gospel.m4a',
@@ -23,11 +25,38 @@ function setup(){
   createCanvas(windowWidth, windowHeight);
   current = createVector(0,0);
   previous = createVector(0,0);
+    
+    //paint bucket button 1
+    var btn = document.createElement("BUTTON");        
+    var DOM_img = document.createElement("img");
+    DOM_img.src = "paint.jpg";
+    btn.appendChild(DOM_img); 
+    document.body.appendChild(btn); 
+    
+   //paint bucket button 2
+    var btnt = document.createElement("BUTTON");        
+    var DOM_imgt = document.createElement("img");
+    DOM_imgt.src = "paint.jpg";
+    btnt.appendChild(DOM_imgt); 
+    document.body.appendChild(btnt); 
+    
+    //paint bucket button 3
+    var btnf = document.createElement("BUTTON");        
+    var DOM_imgf = document.createElement("img");
+    DOM_imgf.src = "paint.jpg";
+    btnf.appendChild(DOM_imgf); 
+    document.body.appendChild(btnf); 
+    
+    
 }
 
 function draw(){
 	// the create canvas () uses this function to draw
 	background(200);
+    
+   
+    
+     
 
 	if(millis() > next && painting){
 		current.x = mouseX;
