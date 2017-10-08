@@ -32,6 +32,7 @@ function setup(){
     DOM_img.src = "paint.jpg";
     btn.appendChild(DOM_img); 
     document.body.appendChild(btn); 
+     
     
    //paint bucket button 2
     var btnt = document.createElement("BUTTON");        
@@ -45,9 +46,18 @@ function setup(){
     var DOM_imgf = document.createElement("img");
     DOM_imgf.src = "paint.jpg";
     btnf.appendChild(DOM_imgf); 
-    document.body.appendChild(btnf); 
-    
-    
+    document.body.appendChild(btnf);  
+}
+
+
+function paintRed(){
+    paintColour = "red"
+}
+function paintBlue(){
+    paintColour = "blue"
+}
+function paintGreen(){
+    paintColour = "green"
 }
 
 function draw(){
