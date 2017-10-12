@@ -16,7 +16,7 @@ function preload(){
 
 }
 function setup(){
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(800, 600);
 
 }
 
@@ -37,22 +37,34 @@ function draw(){
   strokeWeight(20);
 
   point(mouseX,mouseY);
+
   var x1 = 300;
   var y1 = 300;
   var x2 = 500;
   var y2 = 200;
 
-  p1 = point(x1,y1);
-  p2 = point(x2,y2);
+  p1= new pointClass(x1,y1);
+  p2= new pointClass(x2,y2);
+
+  p1.check(x1,y1);
 
 
   beginShape();
-    line(x1, y1, mouseX, mouseY);
+    
   endShape();
     
      
 }
 
+function pointClass(x, y){
+  point(x,y);
+}
+pointClass.prototype.check = function(x,y){
+  var d = dist(mouseX,mouseY,x,y);
+  if (d < 25){
+      line(x,y, mouseX,mouseY);
+  }
+}
 
 // Start it up
 function mousePressed() {
