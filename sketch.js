@@ -1,182 +1,85 @@
-// All the paths
-var paths = [];
-// Are we painting?
-var painting = false;
-// How long until the next circle
-var next = 0;
-// Where are we now and where were we?
-var current;
-var previous;
-var song;
-var songArray = [];
+var point;
+var x = 0; //boolean :D
 
-var paintColour;
+var r = 0; //RGB red
+var g = 0; //RGB green
+var b = 0; //RGB blue
+
 
 function preload(){
-	songArray = [
-		'assets/01 This Is Gospel.m4a',
-		'assets/02 Miss Jackson (feat. Lolo).m4a',
-	];
-
- 	song = loadSound(songArray[1]);
-
 }
+
 function setup(){
-  createCanvas(windowWidth, windowHeight);
-  current = createVector(0,0);
-  previous = createVector(0,0);
-    
-    //paint bucket button 1
-    var btn = document.createElement("BUTTON");        
-    var DOM_img = document.createElement("img");
-    DOM_img.src = "paint.jpg";
-    btn.appendChild(DOM_img); 
-    document.body.appendChild(btn); 
-     
-    
-   //paint bucket button 2
-    var btnt = document.createElement("BUTTON");        
-    var DOM_imgt = document.createElement("img");
-    DOM_imgt.src = "paint.jpg";
-    btnt.appendChild(DOM_imgt); 
-    document.body.appendChild(btnt); 
-    
-    //paint bucket button 3
-    var btnf = document.createElement("BUTTON");        
-    var DOM_imgf = document.createElement("img");
-    DOM_imgf.src = "paint.jpg";
-    btnf.appendChild(DOM_imgf); 
-    document.body.appendChild(btnf);  
-}
-
-
-function paintRed(){
-    paintColour = "red"
-}
-function paintBlue(){
-    paintColour = "blue"
-}
-function paintGreen(){
-    paintColour = "green"
+  cnv = createCanvas(800, 600);
 }
 
 function draw(){
-	// the create canvas () uses this function to draw
-	background(200);
-    
+  background(200);
+  stroke(0);
+  strokeWeight(20);
    
-    
+
+    p1 = new pointClass(300,300);
+    p1.display();
+    p1.return_coordinates();
+
+    p2 = new pointClass(400, 500);
+    p2.display();
+    p2.return_coordinates();
+
+    if(Boolean(x)){
+      drawLine(p1.x, p1.y, p2.x, p2.y);
+    }
      
-
-	if(millis() > next && painting){
-		current.x = mouseX;
-		current.y = mouseY;
-
-		var force = p5.Vector.sub(current, previous);
-		force.mult(0.05);
-
-		paths[paths.length -1].add(current, force);
-		next = millis() + random(100);
-
-		previous.x = current.x;
-    	previous.y = current.y;
-	}
-	 // Draw all paths
-  for( var i = 0; i < paths.length; i++) {
-    paths[i].update();
-    paths[i].display();
+}
+// point class
+function pointClass(x,y){
+  
+  this.return_coordinates = function(){
+    this.x = x;
+    this.y = y;
   }
-  console.log(paths);
+  this.display = function(){
+    point(x,y);
+  }
 }
 
-
-// Start it up
-function mousePressed() {
-  next = 0;
-  painting = true;
-  previous.x = mouseX;
-  previous.y = mouseY;
-  paths.push(new Path());
-
-  // if(!song.isPlaying()){
-  // 	song.play();
-  // }
-}
 
 function mouseDragged(){
-	if(!song.isPlaying() || song.isPaused()){
-		song.play();
-	}
-}
-// Stop
-function mouseReleased() {
-  painting = false;
-  if(song.isPlaying()){
-  	song.pause();
+  d = dist(mouseX, mouseY, p1.x, p1.y);
+  e = dist(mouseX, mouseY, p2.x, p2.y);
+
+  var check = d-e;
+  if(check < 20){
+    //console.log('you prssed!');
+    x = 1; 
   }
 }
 
-// A Path is a list of particles
-function Path() {
-  this.particles = [];
-  this.hue = random(100);
+
+function drawLine(x1, y1, x2, y2){
+  //console.log('this function was activated');
+  stroke(r, g, b);
+  strokeWeight(20);
+  line(x1, y1, x2, y2); // why does this not fire????
+  //console.log('a line should have been drawn by now');
 }
 
-Path.prototype.add = function(position, force){
-	this.particles.push(new Particle(position, force, this.hue));
+function changeRed() {
+  r = 255; g = 0; b = 0;
 }
 
-// Display plath
-Path.prototype.update = function() {  
-  for (var i = 0; i < this.particles.length; i++) {
-    this.particles[i].update();
-  }
-}  
-
-// Display plath
-Path.prototype.display = function() {
-  
-  // Loop through backwards
-  for (var i = this.particles.length - 1; i >= 0; i--) {
-    // If we shold remove it
-    if (this.particles[i].lifespan <= 0) {
-      this.particles.splice(i, 1);
-    // Otherwise, display it
-    } else {
-      this.particles[i].display(this.particles[i+1]);
-    }
-  }
-}  
-
-// Particles along the path
-function Particle(position, force, hue) {
-  this.position = createVector(position.x, position.y);
-  this.velocity = createVector(force.x, force.y);
-  this.drag = 0.95;
-  this.lifespan = 255;
+function changeGreen() {
+  r = 0; g = 255; b = 0;
 }
 
-Particle.prototype.update = function() {
-  // Move it
-  this.position.add(this.velocity);
-  // Slow it down
-  this.velocity.mult(this.drag);
-  // Fade it out
-  this.lifespan--;
-}
-
-// Draw particle and connect it with a line
-// Draw a line to another
-Particle.prototype.display = function(other) {
-  stroke(0, this.lifespan);
-  fill(0, this.lifespan/2);    
-  ellipse(this.position.x,this.position.y, 8, 8);    
-  // If we need to draw a line
-  if (other) {
-    line(this.position.x, this.position.y, other.position.x, other.position.y);
-  }
+function changeBlue() {
+  r = 0; g = 0; b = 255;
 }
 
 function windowResized(){
 	resizeCanvas(windowWidth, windowHeight);
 }
+
+
+
