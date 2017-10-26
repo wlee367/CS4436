@@ -28,8 +28,16 @@ function draw(){
     p2.return_coordinates();
 
     if(Boolean(x)){
-      drawLine(p1.x, p1.y, p2.x, p2.y);
+      // drawLine(p1.x, p1.y, mouseX, mouseY);
+      l1 = line(p1.x, p1.y, mouseX, mouseY);
+    
+
+      d = dist(mouseX, mouseY, p2.x, p2.y)
+      if(d<100){
+        // drawLine(p1.x, p1.y, p2.x, p2.y);
+      }
     }
+
      
 }
 // point class
@@ -44,7 +52,10 @@ function pointClass(x,y){
   }
 }
 
+function mouseReleased(){
+  clear();
 
+}
 function mouseDragged(){
   d = dist(mouseX, mouseY, p1.x, p1.y);
   e = dist(mouseX, mouseY, p2.x, p2.y);
