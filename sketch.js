@@ -60,7 +60,7 @@ function draw(){
   pointArray[3].display();
   pointArray[3].return_coordinates();
   
-  for(var index = 0; index < lineArray.length; index++){
+  for(var index = 0; index < pointArray.length; index++){
     var p1 = pointArray[index];
     console.log('hello');
       for(var j = 0; j< p1.connections_array.length; j++){
@@ -106,12 +106,10 @@ function mousePressed(){
   //select the nearest point
 
     for(var i =0; i < pointArray.length; i++){
-        d = dist(pointArray[i].x, pointArray[i].y, mouseX, mouseY);
+        var d = dist(pointArray[i].x, pointArray[i].y, mouseX, mouseY);
         if(d < 10){
           console.log('fire');
           selected_point = pointArray[i];
-        }else{
-          selected_point = null;
         }
     //if the distance is close enough, then you've selected the point
     
@@ -155,15 +153,23 @@ function mouseDragged(){
     console.log('ahhh');
       d = dist(pointArray[i].x, pointArray[i].y, mouseX, mouseY);
       p1 = pointArray[i];
+
+      if((selected_point) && (d<10)){
+        console.log('2kljdslk');
+        console.log(selected_point);
+        p1.connections_array.push(selected_point);
+        console.log(p1.connections_array);
+        // selected_point = point(mouseX, mouseY);
+        selected_point.connections_array.push(p1);
+      }
     }
 
-  if((selected_point) && (d<10)){
-    console.log('2kljdslk');
-    console.log(selected_point);
-    p1.connections_array.push(selected_point);
-    console.log(p1.connections_array);
-    // selected_point = point(mouseX, mouseY);
-    selected_point.connections_array.push(p1);
+
+}
+
+function mouseReleased(){
+  if(d>10){
+    selected_point = null;
   }
 }
 function changeRed() {
