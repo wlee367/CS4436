@@ -1,9 +1,5 @@
-var point;
 var pointArray = [];
 var lineArray = [];
-var paths = []; 
-var global_x;
-var global_y;
 var selected_point;
 
 var x = 0; //boolean :D
@@ -23,26 +19,7 @@ function setup(){
   p3 = new pointClass(600,300);
   p4 = new pointClass(500,500);
 
-  pointArray.push(p1);
-  pointArray.push(p2);
-  pointArray.push(p3);
-  pointArray.push(p4);
-
-
-   // p1.connections_array.push(p1);
-   // p1.connections_array.push(p2);
-   // p1.connections_array.push(p3);
-   // p1.connections_array.push(p4);
-
-   // p2.connections_array.push(p1);
-   // p2.connections_array.push(p2);
-   // p2.connections_array.push(p3);
-   // p2.connections_array.push(p4);
-
-
-
-  global_x = -1;
-  global_y = -1; 
+  pointArray.push(p1, p2, p3, p4);
 
 }
 
@@ -51,14 +28,10 @@ function draw(){
   stroke(0);
   strokeWeight(20);
    
-  pointArray[0].display();
-  pointArray[0].return_coordinates();
-  pointArray[1].display();
-  pointArray[1].return_coordinates();
-  pointArray[2].display();
-  pointArray[2].return_coordinates();
-  pointArray[3].display();
-  pointArray[3].return_coordinates();
+  for(var i = 0; i <pointArray.length; i++){
+    pointArray[i].display();
+    pointArray[i].return_coordinates();
+  }
   
   for(var index = 0; index < pointArray.length; index++){
     var p1 = pointArray[index];
@@ -89,17 +62,9 @@ function pointClass(x,y){
 }
 
 function drawLine(x1, y1, x2, y2){
-  //console.log('this function was activated');
   stroke(r, g, b);
   strokeWeight(20);
   line(x1, y1, x2, y2);
-  // console.log(x1);
-  // console.log(y1);
-  // console.log(x2);
-  // console.log(y2);  
-
-
-  //console.log('a line should have been drawn by now');
 }
 
 function mousePressed(){
@@ -111,55 +76,17 @@ function mousePressed(){
           console.log('fire');
           selected_point = pointArray[i];
         }
-    //if the distance is close enough, then you've selected the point
-    
-    // if((mouseX != global_x)&&(mouseY != global_y)){
-    //   //if selected point is not -1, -1, 
-    //   //keep track of the point
-    //   for(var i =0; i < pointArray.length; i++){
-    //     d = dist(pointArray[i].x, pointArray[i].y, mouseX, mouseY);
-    //     if(d < 10){
-    //       console.log('hello!');
-    //       console.log(pointArray[i].x);
-    //       console.log(pointArray[i].y);
-    //       // drawLine(pointArray[i].x, pointArray[i].y, mouseX, mouseY);
-    //       lineArray.push(pointArray[i].x, pointArray[i].y);
-    //       console.log('hello again');
-
-    //       console.log(lineArray);
-    //       global_x, global_y = -1;
-    //     }
-        
-    //   }
 
     }
-
-  //when you click on a point, 
-  /*
-  * if selected point is not  -1, -1 (global variable)
-
-  keep track of the point, draw a line from selected point to wherever the mouse 
-  is. once you pick the second point, set selected point back to -1, -1, 
-
-  Linearray - list of all the different lines you've drawn so far 
-  once you draw a line, add it to this array
-  for every line in the line array, draw the line in (draw()
-  */
-  
 }
 
 function mouseDragged(){
    for(var i =0; i < pointArray.length; i++){
-    console.log('ahhh');
+
       d = dist(pointArray[i].x, pointArray[i].y, mouseX, mouseY);
       p1 = pointArray[i];
-
       if((selected_point) && (d<10)){
-        console.log('2kljdslk');
-        console.log(selected_point);
         p1.connections_array.push(selected_point);
-        console.log(p1.connections_array);
-        // selected_point = point(mouseX, mouseY);
         selected_point.connections_array.push(p1);
       }
     }
