@@ -90,8 +90,10 @@ function mouseDragged(){
         selected_point.connections_array.push(p1);
       }
     }
+}
 
-
+function resetScreen(){
+    setup();
 }
 
 function mouseReleased(){
