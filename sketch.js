@@ -92,8 +92,8 @@ function mouseDragged(){
     }
 }
 
-function resetScreen(){
-    setup();
+function resetScreen() {
+    location.reload();
 }
 
 function mouseReleased(){
