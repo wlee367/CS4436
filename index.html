@@ -2,16 +2,26 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css">  
-    <script src="../p5.min.js"></script>
+    <script src="../addons/p5.min.js"></script>
     <script src="../addons/p5.dom.min.js"></script>
     <script src="../addons/p5.sound.min.js"></script>
     <script src="sketch.js"></script>
+    <script src="pointClass.js"></script>
     <style> body {padding: 0; margin: 0;} </style>
       
-    <button id="button1" onclick="changeRed()"><img src="redpaintbucket.jpg"></button>
-    <button id="button2" onclick="changeGreen()"><img src="greenpaintbucket.jpg"></button>
-    <button id="button3" onclick="changeBlue()"><img src="bluepaintbucket.jpg"></button>
+    <button id="button1" onclick="changeRed()"><img src="assets/redpaintbucket.jpg"></button>
+    <button id="button2" onclick="changeGreen()"><img src="assets/greenpaintbucket.jpg"></button>
+    <button id="button3" onclick="changeBlue()"><img src="assets/bluepaintbucket.jpg"></button>
     <button onclick="resetScreen()">Reset</button>  
       
+    <div id="p5_loading" class="loadingclass">
+        <p>Welcome to mmmDot!</p>
+        <p>The most innovative music game since sliced bread!</p>
+        <p>We're just loading up the audio files for you.</p>
+        <p>Hang on real tight, friend. We're about to rock your socks off</p>
+
+    </div>
+
+ 
   </head>
 </html>
