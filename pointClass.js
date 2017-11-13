@@ -1,5 +1,5 @@
 // point class
-function pointClass(x,y){
+function pointClass(canvas,x,y){
   this.connections_array = [];
   this.color_array = [];
 
@@ -8,7 +8,7 @@ function pointClass(x,y){
     this.y = y;
   }
   this.display = function(){
-    point(x,y);
+    canvas.point(x,y);
   }
 }
 
