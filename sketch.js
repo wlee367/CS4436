@@ -121,7 +121,13 @@ var sketch = function(p){
   p.windowResized = function(){
    p.resizeCanvas(windowWidth, windowHeight);
   }
+  
 };
+
+function resetScreen() {
+     location.reload();
+  }
+
 
 var myP5 = new p5(sketch);
   
