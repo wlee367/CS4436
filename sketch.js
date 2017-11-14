@@ -25,9 +25,6 @@ var sketch = function(p){
   p.setup = function(){
     p.canvas = p.createCanvas(800, 600);
     p.reset();
-    p.button = p.createButton('Reset');
-    p.button.position(320, 45);
-    p.button.mousePressed(p.reset);
   }
   p.draw=function(){
     p.background(200);
