@@ -1,14 +1,17 @@
 // point class
 function pointClass(canvas,x,y){
-  this.connections_array = [];
-  this.color_array = [];
+  this.connected = false;
+  this.attachedLine;
+ 
+  this.x = x;
+  this.y = y;
 
-  this.return_coordinates = function(){
-    this.x = x;
-    this.y = y;
-  }
   this.display = function(){
     canvas.point(x,y);
+  }
+  this.disconnect = function(){
+  	this.connected = false;
+  	this.attachedLine = undefined; 
   }
 }
 

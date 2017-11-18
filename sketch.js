@@ -2,20 +2,18 @@ var sketch = function(p){
   p.pointArray = [];
   p.lineArray = [];
   p.selected_point;
+  p.selected_line;
 
+  //images
   p.blue;
   p.red;
   p.green;
 
-  p.r = 0; //RGB red
-  p.g = 0; //RGB green
-  p.b = 0; //RGB blue
+  //current Color Selected
+  p.currentCol = 1; //1=green, 2 = red, 3 = blue, 0 = black
+
 
   p.preload =function(){ 
-    p.song1 = p.loadSound('/assets/01 This Is Gospel.m4a');
-    p.song2 = p.loadSound('/assets/02 Miss Jackson (feat. Lolo).m4a');
-    p.song3 = p.loadSound('/assets/02 Miss Jackson (feat. Lolo).m4a');
-    p.song4 = p.loadSound('/assets/02 Miss Jackson (feat. Lolo).m4a');
     
     p.blue = p.loadImage("/assets/bluepaintbucket.jpg");
     p.red = p.loadImage("/assets/redpaintbucket.jpg");
@@ -23,103 +21,162 @@ var sketch = function(p){
   }
 
   p.setup = function(){
-    p.canvas = p.createCanvas(800, 600);
+    p.canvas = p.createCanvas(window.innerWidth, window.innerHeight);
     p.reset();
   }
   p.draw=function(){
     p.background(200);
     p.stroke(0);
     p.strokeWeight(20);
+    
+    //draw points
     for(var i = 0; i <p.pointArray.length; i++){
       p.pointArray[i].display();
-      p.pointArray[i].return_coordinates();
     }
-  
-   for(var index = 0; index < p.pointArray.length; index++){
-      var p1 = p.pointArray[index];
-      //console.log('hello');
-        for(var j = 0; j< p1.connections_array.length; j++){
-          var p2 = p1.connections_array[j];
-          // console.log('hello again');
-          p.drawLine(p1.x, p1.y, p2.x, p2.y);
-        }
-      }
-    p.image(p.blue, 0,0);
-    p.image(p.red, 100,0);
-    p.image(p.green, 200,0);
+
+    //draw slected line
+    if (p.selected_line !== undefined){
+      p.drawSelectLine();
+    }
+
+    //draw lines
+    for (var index = 0; index < p.lineArray.length; index++){
+      p.drawLine(p.lineArray[index]); 
+    }
+
+    //draw paint cans
+    //with current tint
+    if (p.currentCol === 1){
+      p.noTint();
+      p.image(p.green, (innerWidth-300),0);
+      p.tint(255, 126);
+      p.image(p.red, (innerWidth-200),0);
+      p.image(p.blue, (innerWidth-100),0);
+    }else if (p.currentCol === 2){
+      p.noTint();
+      p.image(p.red, (innerWidth-200),0);
+      p.tint(255, 126);
+      p.image(p.green, (innerWidth-300),0);
+      p.image(p.blue, (innerWidth-100),0);
+    }else if (p.currentCol === 3){
+      p.noTint();
+      p.image(p.blue, (innerWidth-100),0);
+      p.tint(255, 126);
+      p.image(p.green, (innerWidth-300),0);
+      p.image(p.red, (innerWidth-200),0);
+    }
   }
-  p.drawLine = function(x1, y1, x2, y2){
-    p.stroke(p.r, p.g, p.b);
+  p.drawLine = function(thisLine){
+    if (thisLine.color === 1){
+      p.stroke(0,255,0);
+    }else if (thisLine.color === 2){
+      p.stroke(255,0,0);
+    }
+    else if (thisLine.color === 3){
+      p.stroke(0,0,255);
+    }
     p.strokeWeight(20);
-    p.line(x1, y1, x2, y2);
+    p.line(thisLine.p1.x,thisLine.p1.y,thisLine.p2.x,thisLine.p2.y);
   }
+  p.drawSelectLine = function(){
+    p.strokeWeight(30);
+    p.stroke(255,215,0);
+    p.line(p.selected_line.p1.x,p.selected_line.p1.y,p.selected_line.p2.x, p.selected_line.p2.y);
+  }
+
+
   p.mousePressed = function(){
   //select the nearest point
     for(var i =0; i < p.pointArray.length; i++){
         p.d = p.dist(p.pointArray[i].x, p.pointArray[i].y, p.mouseX, p.mouseY);
         if(p.d < 10){
           console.log('fire');
-          //console.log(p1.color_array);
           p.selected_point = p.pointArray[i];
+          if (p.selected_point.connected === true){
+            p.selected_line = p.selected_point.attachedLine;
+          }
         }
       }
-    //the blue can (95x105)
-    if(p.mouseX > 0 && p.mouseX <= 95 && p.mouseY > 0 && p.mouseY <=105){
-      p.changeBlue();
-    }
-    //the red can (95x105) []
-    if(p.mouseX > 95 && p.mouseX <= 190 && p.mouseY > 0 && p.mouseY <= 105){
-      p.changeRed();
-    }
-    //the red can
-    if(p.mouseX > 190 && p.mouseX<=190+95 && p.mouseY>0 && p.mouseY<=105){
-      p.changeGreen();
-    }
-
   }
   p.mouseDragged = function(){
    for(var i =0; i < p.pointArray.length; i++){
       d = p.dist(p.pointArray[i].x, p.pointArray[i].y, p.mouseX, p.mouseY);
       p1 = p.pointArray[i];
-      if((p.selected_point) && (d<10)){
-        p1.connections_array.push(p.selected_point);
-        p.selected_point.connections_array.push(p1);
+      if((p.selected_point) && (d<10) && (p1 !== p.selected_point) && (p1.connected === false) && (p.selected_point.connected === false)){
+
+        newLine = new lineClass(p, p1, p.selected_point, p.currentCol);
+        p.lineArray.push(newLine);
+        console.log("New line from");
+        p1.connected = true;
+        p.selected_point.connected = true;
+        p.selected_line = newLine;
+
+        //setPoints attached line
+        p1.attachedLine = newLine;
+        p.selected_point.attachedLine = newLine;
+
       }
     }
   }
+
+  /*
+  Press 1, 2, or 3 to change colours
+  Press TAB to delete the selected line
+  */
+  p.keyPressed = function(){
+    if (p.keyCode === 49) {
+      p.changeGreen();
+    } else if (p.keyCode === 50) {
+      p.changeRed();
+    } else if (p.keyCode === 51) {
+      p.changeBlue();
+    } else if (p.keyCode === 9) {  //tab key
+      if (p.selected_line !== undefined){
+        //erase data from points
+        p.selected_line.p1.disconnect();
+        p.selected_line.p2.disconnect();
+        //delete line from list
+        var ind = p.lineArray.indexOf(p.selected_line);
+        p.lineArray.splice(ind, 1);
+        //take away selected line
+        p.selected_line = undefined;
+      }
+    }
+  }
+
+  //creates fresh points
   p.reset = function() {
-    console.log('why');
+
     var p1 = new pointClass(p,300,300);
     var p2 = new pointClass(p,400,500);
     var p3 = new pointClass(p,600,300);
     var p4 = new pointClass(p,500,500);
-    console.log('hello?');
+
     p.pointArray.push(p1, p2, p3, p4);
     for(var i = 0; i<p.pointArray.length; i++){
-      //var point = pointArray[i];
-      p.pointArray[i].color_array.push(p.r,p.g,p.b);
-      console.log('break this browser');
+
     }
   }
-  p.mouseReleased = function(){
-    if(p.d>10){
-      p.selected_point = null;
-    }   
+
+  p.changeGreen = function() {
+    p.currentCol = 1;
+    console.log("changed green");
   }
-  p.changeRed = function() {
-    p.r = 255; p.g = 0; p.b = 0;
-  }
-   p.changeGreen = function() {
-    p.r = 0; p.g = 255; p.b = 0;
+   p.changeRed = function() {
+    p.currentCol = 2;
+    console.log("changed red");
   }
   p.changeBlue = function() {
-    p.r = 0; p.g = 0; p.b = 255;
+    p.currentCol = 3;
+    console.log("changed blue");
   }
   p.windowResized = function(){
-   p.resizeCanvas(windowWidth, windowHeight);
+   p.resizeCanvas(window.innerWidth, window.innerHeight);
   }
   
 };
+
+
 
 function resetScreen() {
      location.reload();
@@ -127,4 +184,4 @@ function resetScreen() {
 
 
 var myP5 = new p5(sketch);
-  
+
