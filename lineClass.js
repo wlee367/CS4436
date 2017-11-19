@@ -11,6 +11,13 @@ function lineClass(canvas,p1,p2, c){
  	this.display = function(){
  		canvas.line(p1.x, p1.y, p2.x, p2.y);
  	}
+
+ 	// this.collide = function(mX, mY){
+ 	// 	this.hit = canvas.collidePointLine(p1.x,p1.y,p2.x,p2.y,mX,mY, 0.5);
+ 	// 	if (this.hit){
+ 	// 		return true;
+ 	// 	}
+ 	// }
   
 }
 

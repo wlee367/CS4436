@@ -4,6 +4,10 @@ var sketch = function(p){
   p.selected_point;
   p.selected_line;
 
+  //height scaled
+  p.YSCALE = (window.innerHeight/16);
+  p.XSCALE = (window.innerWidth/32);
+
   //images
   p.blue;
   p.red;
@@ -12,12 +16,19 @@ var sketch = function(p){
   //current Color Selected
   p.currentCol = 1; //1=green, 2 = red, 3 = blue, 0 = black
 
+  //Sound Classes
+  p.piano;
+  //for dragging
+  p.sectionMouseY; //checks where the mouse is on y axis (used for switching sounds)
+  p.played = false;
 
   p.preload =function(){ 
     
-    p.blue = p.loadImage("/assets/bluepaintbucket.jpg");
-    p.red = p.loadImage("/assets/redpaintbucket.jpg");
-    p.green = p.loadImage("assets/greenpaintbucket.jpg");
+    p.blue = p.loadImage("/assets/paintCanBLUE.png");
+    p.red = p.loadImage("/assets/paintCanRED.png");
+    p.green = p.loadImage("assets/paintCanGREEN.png");
+
+    p.piano = new Piano(p);
   }
 
   p.setup = function(){
@@ -29,6 +40,14 @@ var sketch = function(p){
     p.stroke(0);
     p.strokeWeight(20);
     
+    //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
+    //check if it changes
+    p.oldsectionY = p.sectionMouseY;
+    p.sectionMouseY = Math.floor(p.mouseY/p.YSCALE);
+    if (p.oldsectionY !== p.sectionMouseY){
+      p.played = false;
+    }
+
     //draw points
     for(var i = 0; i <p.pointArray.length; i++){
       p.pointArray[i].display();
@@ -41,29 +60,33 @@ var sketch = function(p){
 
     //draw lines
     for (var index = 0; index < p.lineArray.length; index++){
-      p.drawLine(p.lineArray[index]); 
+      p.drawLine(p.lineArray[index]);
+      // if (p.lineArray[index].collide(p.mouseX,p.mouseY)){
+      //   console.log("PRESSED");
+        
+      // } 
     }
 
     //draw paint cans
     //with current tint
     if (p.currentCol === 1){
       p.noTint();
-      p.image(p.green, (innerWidth-300),0);
+      p.image(p.green, (innerWidth-300),0, 75, 100);
       p.tint(255, 126);
-      p.image(p.red, (innerWidth-200),0);
-      p.image(p.blue, (innerWidth-100),0);
+      p.image(p.red, (innerWidth-200),0, 75, 100);
+      p.image(p.blue, (innerWidth-100),0, 75, 100);
     }else if (p.currentCol === 2){
       p.noTint();
-      p.image(p.red, (innerWidth-200),0);
+      p.image(p.red, (innerWidth-200),0, 75, 100);
       p.tint(255, 126);
-      p.image(p.green, (innerWidth-300),0);
-      p.image(p.blue, (innerWidth-100),0);
+      p.image(p.green, (innerWidth-300),0, 75, 100);
+      p.image(p.blue, (innerWidth-100),0, 75, 100);
     }else if (p.currentCol === 3){
       p.noTint();
-      p.image(p.blue, (innerWidth-100),0);
+      p.image(p.blue, (innerWidth-100),0, 75, 100);
       p.tint(255, 126);
-      p.image(p.green, (innerWidth-300),0);
-      p.image(p.red, (innerWidth-200),0);
+      p.image(p.green, (innerWidth-300),0, 75, 100);
+      p.image(p.red, (innerWidth-200),0, 75, 100);
     }
   }
   p.drawLine = function(thisLine){
@@ -86,6 +109,12 @@ var sketch = function(p){
 
 
   p.mousePressed = function(){
+    //play initial sound based on p.sectionMouseY
+    console.log(p.sectionMouseY);  
+    p.piano.sArray[p.sectionMouseY].play();
+    p.played = true;
+
+
   //select the nearest point
     for(var i =0; i < p.pointArray.length; i++){
         p.d = p.dist(p.pointArray[i].x, p.pointArray[i].y, p.mouseX, p.mouseY);
@@ -99,7 +128,15 @@ var sketch = function(p){
       }
   }
   p.mouseDragged = function(){
-   for(var i =0; i < p.pointArray.length; i++){
+
+    //play sound when mouse is dragged
+    if (!p.played){
+      p.piano.sArray[p.sectionMouseY].play();
+      p.played = true;
+    }
+
+    //check for drawing lines
+    for(var i =0; i < p.pointArray.length; i++){
       d = p.dist(p.pointArray[i].x, p.pointArray[i].y, p.mouseX, p.mouseY);
       p1 = p.pointArray[i];
       if((p.selected_point) && (d<10) && (p1 !== p.selected_point) && (p1.connected === false) && (p.selected_point.connected === false)){
@@ -146,7 +183,7 @@ var sketch = function(p){
 
   //creates fresh points
   p.reset = function() {
-
+    
     var p1 = new pointClass(p,300,300);
     var p2 = new pointClass(p,400,500);
     var p3 = new pointClass(p,600,300);
