@@ -14,10 +14,14 @@ var sketch = function(p){
   p.green;
 
   //current Color Selected
-  p.currentCol = 1; //1=green, 2 = red, 3 = blue, 0 = black
+  p.currentCol; //1=green, 2 = red, 3 = blue, 0 = black
 
   //Sound Classes
   p.piano;
+  p.synth;
+  p.perc;
+
+  p.currentInst;
   //for dragging
   p.sectionMouseY; //checks where the mouse is on y axis (used for switching sounds)
   p.played = false;
@@ -29,6 +33,12 @@ var sketch = function(p){
     p.green = p.loadImage("assets/paintCanGREEN.png");
 
     p.piano = new Piano(p);
+    p.synth = new Synth(p);
+    p.perc = new Perc(p);
+
+    //select init instrument an color to start
+    p.currentCol = 3;
+    p.currentInst =p.synth;
   }
 
   p.setup = function(){
@@ -70,18 +80,21 @@ var sketch = function(p){
     //draw paint cans
     //with current tint
     if (p.currentCol === 1){
+      p.currentInst = p.perc;
       p.noTint();
       p.image(p.green, (innerWidth-300),0, 75, 100);
       p.tint(255, 126);
       p.image(p.red, (innerWidth-200),0, 75, 100);
       p.image(p.blue, (innerWidth-100),0, 75, 100);
     }else if (p.currentCol === 2){
+      p.currentInst =p.piano;
       p.noTint();
       p.image(p.red, (innerWidth-200),0, 75, 100);
       p.tint(255, 126);
       p.image(p.green, (innerWidth-300),0, 75, 100);
       p.image(p.blue, (innerWidth-100),0, 75, 100);
     }else if (p.currentCol === 3){
+      p.currentInst =p.synth;
       p.noTint();
       p.image(p.blue, (innerWidth-100),0, 75, 100);
       p.tint(255, 126);
@@ -111,7 +124,7 @@ var sketch = function(p){
   p.mousePressed = function(){
     //play initial sound based on p.sectionMouseY
     console.log(p.sectionMouseY);  
-    p.piano.sArray[p.sectionMouseY].play();
+    p.currentInst.sArray[p.sectionMouseY].play();
     p.played = true;
 
 
@@ -131,7 +144,7 @@ var sketch = function(p){
 
     //play sound when mouse is dragged
     if (!p.played){
-      p.piano.sArray[p.sectionMouseY].play();
+      p.currentInst.sArray[p.sectionMouseY].play();
       p.played = true;
     }
 
