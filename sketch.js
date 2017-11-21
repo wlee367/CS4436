@@ -4,9 +4,14 @@ var sketch = function(p){
   p.selected_point;
   p.selected_line;
 
+  p.ySplit = 16;
+  p.xSplit = 32;
   //height scaled
-  p.YSCALE = (window.innerHeight/16);
-  p.XSCALE = (window.innerWidth/32);
+  p.YSCALE = (window.innerHeight/p.ySplit);
+  p.XSCALE = (window.innerWidth/p.xSplit);
+
+
+  p.boxArray;
 
   //images
   p.blue;
@@ -18,8 +23,14 @@ var sketch = function(p){
 
   //Sound Classes
   p.piano;
+  p.pianoPat =[]; //array of paino notes len=xSplit
   p.synth;
+  p.synthPat=[]; //array of synth notes len=xSplit
   p.perc;
+  p.percPat=[]; //array of perc notes len=xSplit
+
+  //Part class (to play all the sounds)
+  p.myPart;
 
   p.currentInst;
   //for dragging
@@ -27,6 +38,7 @@ var sketch = function(p){
   p.played = false;
 
   p.preload =function(){ 
+
     
     p.blue = p.loadImage("/assets/paintCanBLUE.png");
     p.red = p.loadImage("/assets/paintCanRED.png");
@@ -39,16 +51,42 @@ var sketch = function(p){
     //select init instrument an color to start
     p.currentCol = 3;
     p.currentInst =p.synth;
+
+    //create invisable boxs
+    //create 2d array
+    p.boxArray = new Array(p.xSplit);
+    for (z = 0; z < p.xSplit; z++) {
+      p.boxArray[z] = new Array(p.ySplit);
+    }
+
+    for (var h=0; h< p.ySplit; h++){
+      for (var w =0; w<p.xSplit; w++){
+        p.box = new Box(p, w*p.XSCALE, h*p.YSCALE, p.XSCALE, p.YSCALE);
+        p.boxArray[h][w] = p.box;
+        console.log("made");
+      }
+    }
+
+    //init for Patern arrays
+    for (var i= 0; i < p.xSplit; i++){
+      p.pianoPat.push(0);
+      p.synthPat.push(0);
+      p.percPat.push(0);
+    }
+
   }
 
   p.setup = function(){
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight);
     p.reset();
+
   }
   p.draw=function(){
+
     p.background(200);
     p.stroke(0);
     p.strokeWeight(20);
+
     
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
@@ -191,7 +229,61 @@ var sketch = function(p){
         //take away selected line
         p.selected_line = undefined;
       }
+    } //press ENTER to compile boxs
+    else if (p.keyCode === 13){
+      console.log("enter press");
+      //cycle through all boxes
+      for (var h=0; h< p.ySplit; h++){
+        for (var w =0; w< p.xSplit; w++){
+          //cycle through all lines
+          for (var index = 0; index < p.lineArray.length; index++){
+            p.boxArray[h][w].collide(p.lineArray[index]); //finds collision points and updates box class
+          }
+          //x-yspots are place in the 16/32 array
+          xspot =p.boxArray[h][w].x/p.XSCALE;
+          yspot =p.boxArray[h][w].y/p.YSCALE;
+
+          if (p.boxArray[h][w].r === true){
+            p.pianoPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].b === true){
+            p.synthPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].g === true){
+            p.percPat.splice(xspot, 1, yspot);
+          }
+        }
+      }
+      p.playback();
+      
     }
+  }
+
+  //plays back
+  p.playback = function(){
+    var pianoPhrase = new p5.Phrase("piano", p.playPiano, p.pianoPat);
+    var synthPhrase = new p5.Phrase("synth", p.playSynth, p.synthPat);
+    var percPhrase = new p5.Phrase("perc", p.playPerc, p.percPat);
+
+    p.myPart = new p5.Part();
+    p.myPart.addPhrase(pianoPhrase);
+    p.myPart.addPhrase(synthPhrase);
+    p.myPart.addPhrase(percPhrase);
+    p.myPart.setBPM(120);
+
+    p.myPart.start();
+
+
+  }
+
+  p.playPiano = function(time, playbackRate){
+    p.piano.sArray[playbackRate].play(time);
+  }
+  p.playSynth = function(time, playbackRate){
+    p.synth.sArray[playbackRate].play(time);
+  }
+  p.playPerc = function(time, playbackRate){
+    p.perc.sArray[playbackRate].play(time);
   }
 
   //creates fresh points
