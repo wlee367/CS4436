@@ -94,14 +94,14 @@ var sketch = function(p){
     p.strokeWeight(20);
 
     //SLIDING PLAY BAR
-    // if (p.playing === true){
-    //   p.line(p.x1,window.innerHeight,p.x1,0);
-    //   p.x1 = p.x1 + (54);
-    //   if (p.x1 >= window.innerWidth){
-    //     p.x1 = 0;
-    //     p.playing = false;
-    //   }
-    // }
+    if (p.playing === true){
+      p.line(p.x1,window.innerHeight,p.x1,0);
+      p.x1 = p.x1 + (54);
+      if (p.x1 >= window.innerWidth){
+        p.x1 = 0;
+        p.playing = false;
+      }
+    }
 
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
