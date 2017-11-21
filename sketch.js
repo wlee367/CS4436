@@ -9,8 +9,8 @@ var sketch = function(p){
   //height scaled
   p.YSCALE = (window.innerHeight/p.ySplit);
   p.XSCALE = (window.innerWidth/p.xSplit);
-
-
+    
+    
   p.boxArray;
 
   //images
@@ -73,14 +73,13 @@ var sketch = function(p){
       p.synthPat.push(0);
       p.percPat.push(0);
     }
-
   }
 
   p.setup = function(){
-    p.canvas = p.createCanvas(window.innerWidth, window.innerHeight);
+    p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
-
   }
+  
   p.draw=function(){
 
     p.background(200);
@@ -152,6 +151,7 @@ var sketch = function(p){
     p.strokeWeight(20);
     p.line(thisLine.p1.x,thisLine.p1.y,thisLine.p2.x,thisLine.p2.y);
   }
+  
   p.drawSelectLine = function(){
     p.strokeWeight(30);
     p.stroke(255,215,0);
