@@ -1,3 +1,8 @@
+
+var level1DOT = [[1,1], [1,3], [7,6], [11,10]];
+var currentLevel = level1DOT;
+
+
 var sketch = function(p){
   p.pointArray = [];
   p.lineArray = [];
@@ -23,14 +28,16 @@ var sketch = function(p){
 
   //Sound Classes
   p.piano;
-  p.pianoPat =[]; //array of paino notes len=xSplit
+  p.pianoPat =[]; //array of paino notes len=xSplit Phrase
   p.synth;
-  p.synthPat=[]; //array of synth notes len=xSplit
+  p.synthPat=[]; //array of synth notes len=xSplit Phrase
   p.perc;
-  p.percPat=[]; //array of perc notes len=xSplit
+  p.percPat=[]; //array of perc notes len=xSplit Phrase
 
   //Part class (to play all the sounds)
   p.myPart;
+  p.playing = false;
+  p.x1 = 0;
 
   p.currentInst;
   //for dragging
@@ -53,17 +60,17 @@ var sketch = function(p){
     p.currentInst =p.synth;
 
     //create invisable boxs
-    //create 2d array
+      //create 2d array
     p.boxArray = new Array(p.xSplit);
     for (z = 0; z < p.xSplit; z++) {
       p.boxArray[z] = new Array(p.ySplit);
     }
-
+      //create boxses
     for (var h=0; h< p.ySplit; h++){
       for (var w =0; w<p.xSplit; w++){
         p.box = new Box(p, w*p.XSCALE, h*p.YSCALE, p.XSCALE, p.YSCALE);
         p.boxArray[h][w] = p.box;
-        console.log("made");
+        // console.log("made");
       }
     }
 
@@ -87,7 +94,16 @@ var sketch = function(p){
     p.stroke(0);
     p.strokeWeight(20);
 
-    
+    //SLIDING PLAY BAR
+    // if (p.playing === true){
+    //   p.line(p.x1,window.innerHeight,p.x1,0);
+    //   p.x1 = p.x1 + (54);
+    //   if (p.x1 >= window.innerWidth){
+    //     p.x1 = 0;
+    //     p.playing = false;
+    //   }
+    // }
+
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
     p.oldsectionY = p.sectionMouseY;
@@ -109,10 +125,7 @@ var sketch = function(p){
     //draw lines
     for (var index = 0; index < p.lineArray.length; index++){
       p.drawLine(p.lineArray[index]);
-      // if (p.lineArray[index].collide(p.mouseX,p.mouseY)){
-      //   console.log("PRESSED");
-        
-      // } 
+ 
     }
 
     //draw paint cans
@@ -161,7 +174,7 @@ var sketch = function(p){
 
   p.mousePressed = function(){
     //play initial sound based on p.sectionMouseY
-    console.log(p.sectionMouseY);  
+    // console.log(p.sectionMouseY);  
     p.currentInst.sArray[p.sectionMouseY].play();
     p.played = true;
 
@@ -255,6 +268,9 @@ var sketch = function(p){
         }
       }
       p.playback();
+      console.log(p.pianoPat);
+      console.log(p.synthPat);
+      console.log(p.percPat);
       
     }
   }
@@ -271,7 +287,10 @@ var sketch = function(p){
     p.myPart.addPhrase(percPhrase);
     p.myPart.setBPM(120);
 
+    //Play part and set playing to true for slider
     p.myPart.start();
+    p.playing = true;
+
 
 
   }
@@ -288,15 +307,12 @@ var sketch = function(p){
 
   //creates fresh points
   p.reset = function() {
-    
-    var p1 = new pointClass(p,300,300);
-    var p2 = new pointClass(p,400,500);
-    var p3 = new pointClass(p,600,300);
-    var p4 = new pointClass(p,500,500);
 
-    p.pointArray.push(p1, p2, p3, p4);
-    for(var i = 0; i<p.pointArray.length; i++){
-
+    for (var i=0;i<currentLevel.length; i++){
+      console.log("made");
+      var point = new pointClass(p, currentLevel[i][0]*p.XSCALE, currentLevel[i][1]*p.YSCALE);
+      p.pointArray.push(point);
+      console.log(point.x, point.y);
     }
   }
 
@@ -322,8 +338,17 @@ var sketch = function(p){
 
 function resetScreen() {
      location.reload();
-  }
+}
 
 
-var myP5 = new p5(sketch);
+var main = function(){
+  //go to main screen
+
+
+  //if level pressed go to level1
+  var myP5 = new p5(sketch);
+
+}
+
+main();
 
