@@ -15,6 +15,8 @@ body {
   /*align-items: center; */
 }
 
+ .p-right {padding-right: 0.5cm}
+
   .margin {
       margin-bottom: 45px;}
   .bg-1 { 
