@@ -1,51 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-      
-    <div id="welcomeScreen">
+    <link rel="stylesheet" type="text/css" href="style.css">
           
     <style>   
-        .logo   {
-            color: forestgreen; 
-            font-family: "Amatic SC", sans-serif, Serif;
-            font-style: italic;
-            text-align:center;
-            font-size: 50px;
-                }
         body   {
             background-color: lightgrey;
-                }
-        .welcomeimg {
-            display: block;
-            margin: auto;
-            width: 10%;
-            height: auto;
             }
-        
-        .button {
-        -webkit-appearance: button;
-        -moz-appearance: button;
-        appearance: button;
-        text-decoration: none;
-        color: blue;
-        }
-        
     </style> 
           
     <body>
            
-    <h2 class="logo">MmmDot! </h2>
-           
-    <img class="welcomeimg" src="/assets/welcomeimage.jpg" />
-
-
-        <a href="game.html" class="button">Play the Game!</a>
+        <h2 class="logo">MmmDot! </h2>
         
-        <a href="credits.html" class="button">Go to Credits</a>
-      
+        <img class="welcomeimg" src="/assets/welcomeimage.jpg" />
+
+        <div id="container">
+            <a href="game.html" class="button" style=display:inline-block>Play the Game!</a>
+        
+            <a href="credits.html" class="button">Go to Credits</a>
+        </div>   
       
     
         </body>
-    </div>
-  </head>
+    </head>
 </html>
