@@ -15,7 +15,9 @@ body {
   /*align-items: center; */
 }
 
- .p-right {padding-right: 0.5cm}
+ .p-right {
+     padding-right: 0.5cm
+    }
 
   .margin {
       margin-bottom: 45px;
@@ -23,6 +25,11 @@ body {
 .margin-red {
       margin-bottom: 45px;
       color: red;
+ }
+
+.margin-black { /* Black Gray */
+      margin-bottom: 32px;
+      color: #2f2f2f;
  }
   .bg-1 { 
       background-color: #D3D3D3; /* Green */
