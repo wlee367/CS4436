@@ -1,7 +1,18 @@
 
-var level1DOT = [[0,3], [3,3], [8,3], [10,3], [24,3], [28,3], [6, 13], [15, 7],
-                 [1,15], [3,15], [9,15], [11,15], [17,15], [19,15], [25,15], [27,15]];
-var currentLevel = level1DOT;
+var level1DOT = [[9,13],[17,9],[21,3],[29,11]];
+var answerArr = [[  //red, blue, green
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,5,6,7,8,9,10,11,0,0,0], 
+                    [0,0,0,0,0,0,0,0,13,0,12,0,11,0,10,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                  ],
+                  [
+                  ]
+                ];
+var levelDotArr = [[
+                      [9,13],[17,9],[21,3],[29,11]
+                    ]
+                  ];
+var curLev = 0;                    
 
 
 var sketch = function(p){
@@ -45,6 +56,8 @@ var sketch = function(p){
   p.sectionMouseY; //checks where the mouse is on y axis (used for switching sounds)
   p.played = false;
 
+  p.correct = false;
+
   p.preload =function(){ 
 
     
@@ -86,23 +99,33 @@ var sketch = function(p){
   p.setup = function(){
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
+    p.button = p.createButton('PLAY ANSWER');
+    p.button.position(window.innerWidth - 400, 0);
+    p.button.mousePressed(p.playAnswer);
   }
   
   p.draw=function(){
 
     p.background(200);
+
+    if (p.correct != false){
+      p.stroke(200);
+      p.textSize(30);
+      p.text("CORRECT!", 500, p.YSCALE);
+      p.textAlign(p.CENTER);
+    }
+
     p.stroke(0);
     p.strokeWeight(20);
-
     //SLIDING PLAY BAR
-    if (p.playing === true){
-      p.line(p.x1,window.innerHeight,p.x1,0);
-      p.x1 = p.x1 + (54);
-      if (p.x1 >= window.innerWidth){
-        p.x1 = 0;
-        p.playing = false;
-      }
-    }
+    // if (p.playing === true){
+    //   p.line(p.x1,window.innerHeight,p.x1,0);
+    //   p.x1 = p.x1 + (54);
+    //   if (p.x1 >= window.innerWidth){
+    //     p.x1 = 0;
+    //     p.playing = false;
+    //   }
+    // }
 
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
@@ -175,9 +198,9 @@ var sketch = function(p){
 
   p.mousePressed = function(){
     //play initial sound based on p.sectionMouseY
-    // console.log(p.sectionMouseY);  
-    p.currentInst.sArray[p.sectionMouseY].play();
-    p.played = true;
+    // console.log(p.sectionMouseY);
+      p.currentInst.sArray[p.sectionMouseY].play();
+      p.played = true;
 
 
   //select the nearest point
@@ -341,6 +364,36 @@ var sketch = function(p){
     //Play part and set playing to true for slider
     p.myPart.start();
     p.playing = true;
+    answer = p.checkAnswer();
+    if (answer == true){
+      p.correct = true;
+    }
+  }
+
+  p.checkAnswer = function(){
+
+    for (var i=0; i<p.xSplit; i++){
+      if (answerArr[curLev][0][i] !== p.pianoPat[i]){
+        return false;
+      }
+      if (answerArr[curLev][1][i] !== p.synthPat[i]){
+        return false;
+      }
+      if (answerArr[curLev][2][i] !== p.percPat[i]){
+        return false;
+      }
+    }
+    return true;
+
+  }
+
+  p.playAnswer = function(){
+    p.myPart = new p5.Part();
+    p.myPart.addPhrase(new p5.Phrase("p",p.playPiano,answerArr[curLev][0]));
+    p.myPart.addPhrase(new p5.Phrase("s",p.playSynth,answerArr[curLev][1]));
+    p.myPart.addPhrase(new p5.Phrase("p",p.playPerc,answerArr[curLev][2]));
+    p.myPart.start();
+    p.playing = true;
   }
 
   p.playPiano = function(time, playbackRate){
@@ -356,9 +409,9 @@ var sketch = function(p){
   //creates fresh points
   p.reset = function() {
 
-    for (var i=0;i<currentLevel.length; i++){
+    for (var i=0;i<levelDotArr[curLev].length; i++){
       console.log("made");
-      var point = new pointClass(p, currentLevel[i][0]*p.XSCALE, currentLevel[i][1]*p.YSCALE);
+      var point = new pointClass(p, levelDotArr[curLev][i][0]*p.XSCALE, levelDotArr[curLev][i][1]*p.YSCALE);
       p.pointArray.push(point);
       console.log(point.x, point.y);
     }
