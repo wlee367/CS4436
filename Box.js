@@ -16,7 +16,7 @@ function Box(canvas,x,y,w,h){
 		this.hit = canvas.collideLineRect(line.p1.x,line.p1.y,line.p2.x,line.p2.y, 
 			this.x,this.y, this.w, this.h, .5);
 
-		if (this.hit.right.x != false ){
+		if (this.hit.right.x != false || this.hit.left.x != false || this.hit.top.x != false|| this.hit.bottom.x != false){
 			col = line.color;
 			if (col === 1){
 				this.g = true;
@@ -26,6 +26,12 @@ function Box(canvas,x,y,w,h){
 				this.b =true;
 			}
 		}
+	}
+
+	this.resetCol = function(){
+		this.g = false;
+		this.r = false;
+		this.b = false;
 	}
 
   

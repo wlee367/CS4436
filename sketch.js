@@ -1,5 +1,6 @@
 
-var level1DOT = [[1,1], [1,3], [7,6], [11,10]];
+var level1DOT = [[0,3], [3,3], [8,3], [10,3], [24,3], [28,3], [6, 13], [15, 7],
+                 [1,15], [3,15], [9,15], [11,15], [17,15], [19,15], [25,15], [27,15]];
 var currentLevel = level1DOT;
 
 
@@ -233,6 +234,7 @@ var sketch = function(p){
       p.changeBlue();
     } else if (p.keyCode === 9) {  //tab key
       if (p.selected_line !== undefined){
+        p.clearPatterns();
         //erase data from points
         p.selected_line.p1.disconnect();
         p.selected_line.p2.disconnect();
@@ -242,8 +244,9 @@ var sketch = function(p){
         //take away selected line
         p.selected_line = undefined;
       }
-    } //press ENTER to compile boxs
-    else if (p.keyCode === 13){
+    } //press 'P' to compile boxs and play melody
+    else if (p.keyCode === 80){
+      if (p.lineArray.length > 0){
       console.log("enter press");
       //cycle through all boxes
       for (var h=0; h< p.ySplit; h++){
@@ -267,12 +270,60 @@ var sketch = function(p){
           }
         }
       }
-      p.playback();
+      //check for double notes
+      p.pianoPat = p.clean(p.pianoPat);
+      p.synthPat = p.clean(p.synthPat);
+      p.percPat = p.clean(p.percPat);
       console.log(p.pianoPat);
       console.log(p.synthPat);
       console.log(p.percPat);
-      
+      p.playback();
+
     }
+  }
+  }
+
+  p.clearPatterns = function(){
+    console.log("CLEARING");
+    //reset patterns
+    p.pianoPat = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    p.synthPat = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    p.percPat = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    //reset colours in boxses
+    for (var h=0; h< p.ySplit; h++){
+      for (var w =0; w<p.xSplit; w++){
+        p.boxArray[h][w].resetCol();
+        // console.log("made");
+      }
+    }
+
+    console.log(p.pianoPat);
+    console.log(p.synthPat);
+    console.log(p.percPat);
+  }
+
+  p.clean = function(patternArr){
+    var returnArr = patternArr;
+    //data is tracking array
+    var data = [];
+    var length = returnArr.length; 
+
+    for(var i = 0; i < length; i++) {
+      data.push(false);
+    }
+    for (var i =1; i < returnArr.length; i++){
+      if (returnArr[i] === returnArr[i-1]){
+        data.splice(i, 1, true);
+      }
+    }
+    for (var i =1; i < returnArr.length; i++){
+      if (data[i] === true){
+        returnArr.splice(i, 1, 0);
+      }
+    }
+
+    return returnArr;
   }
 
   //plays back
@@ -290,9 +341,6 @@ var sketch = function(p){
     //Play part and set playing to true for slider
     p.myPart.start();
     p.playing = true;
-
-
-
   }
 
   p.playPiano = function(time, playbackRate){
