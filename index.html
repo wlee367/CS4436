@@ -1,26 +1,102 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-          
-    <style>   
-        body   {
-            background-color: lightgrey;
-        }
-    </style> 
-          
-    <body>
-           
-        <h2 class="logo">MmmDot! </h2>
-        
-        <img class="welcomeimg" src="/assets/welcomeimage.jpg" />
-
-        <div id="container">
-            <a href="game.html" class="button" >Play the Game!</a>
-            <a href="credits.html" class="button">Go to Credits</a>
-        </div>   
-      
+<html lang="en">
+<head>
     
-        </body>
-    </head>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>MmmDot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+<style>
+  body {
+      font-family: 'Amatic SC', cursive;
+      font-size: 48px;
+      line-height: 1.8;
+      color: #f5f6f7;
+  }
+  p {font-size: 22px;}
+  h3{
+    font-size: 44px;
+  }
+  h2{
+    font-size: 40px;
+  }
+  h1{
+    font-size: 35px;
+  }
+  .navbar-brand{
+    font-size: 32px;
+    font-weight: bold;
+  }
+    
+  .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 32px;
+      letter-spacing: 5px;
+  }
+ 
+
+</style>
+
+</head>
+    <body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/index.html">MmmDot The Game</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="p-right"><a href="/game.html">PLAY THE GAME</a></li>
+        <li><a href="/credits.html">CREDITS</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+  <h3 class="margin-red">Welcome to MmmDot!</h3>
+  <img src="/../assets/welcomimage.png" class="img-responsive img-circle margin" style="display:inline" alt="paint" width="300" height="300">
+  <h3> <a href="/game.html">LET'S PLAY!</a>  </h3>
+  <h1>(Or scroll down for instructions!)</h1>
+</div>
+
+<!--Second Container -->
+<div class="container-fluid bg-2 text-center">
+  <h3 class="margin">What is this?</h3>
+  <p> MmmDot is an innovative game that merges creativity and problem solving as users complete puzzles by connecting dots to create music. It is an interactive sound platform, where plays will need to replicate musical tracks with visual cues/patterns. </p>
+  <h2>How do I play?</h2>
+  <p>Use the keyboard numbers 1, 2, or 3 to switch between instruments.</p>
+  <p>To draw the line, click on one point and drag to another point. </p>
+  <p>To delete the line, click on one point of the line, and press 'tab'. </p>
+  <p>To play what you have, press the 'p' key on your keyboard.</p>
+  <p>Press the "play answer" button to hear what you're supposed to play</p>
+  <h2>Ready?</h2>
+  <h1><a href="/game.html">Let's play</a></h1>
+</div> 
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>MmmDot was a game designed and developed by students of CS4436 - Selected Topics (Game Audio Development) at Western University. Please visit our <a href="credits.html">Credits page for more details</a></p> 
+</footer>
+
+    </body>
 </html>
