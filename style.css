@@ -18,7 +18,12 @@ body {
  .p-right {padding-right: 0.5cm}
 
   .margin {
-      margin-bottom: 45px;}
+      margin-bottom: 45px;
+ }
+.margin-red {
+      margin-bottom: 45px;
+      color: red;
+ }
   .bg-1 { 
       background-color: #D3D3D3; /* Green */
       color: #ffffff;
