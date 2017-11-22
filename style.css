@@ -15,36 +15,6 @@ body {
   /*align-items: center; */
 }
 
-.logo   {
-    color: forestgreen; 
-    font-family: "Amatic SC", sans-serif, Serif;
-    font-style: italic;
-    text-align:center;
-    font-size: 50px;
-    }
-        
-.welcomeimg {
-    display: block;
-    margin: auto;
-    width: 10%;
-    height: auto;
-    }
-        
-.button {
-    display:inline-block;
-    background-image: linear-gradient(to bottom, #3498db, #2980b9);
-    border-radius: 28px;
-    font-family: "Amatic SC", sans-serif, Serif;
-    color: #ffffff;
-    font-size: 20px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-    }
-
-#container{
-        text-align: center;
-    }
-
   .margin {
       margin-bottom: 45px;}
   .bg-1 { 
@@ -64,8 +34,12 @@ body {
       color: #fff;
   }
 
+.container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
 
- .navbar {
+.navbar {
       padding-top: 15px;
       padding-bottom: 15px;
       border: 0;
@@ -73,12 +47,6 @@ body {
       margin-bottom: 0;
       font-size: 32px;
       letter-spacing: 5px;
-  }
-
-
-.container-fluid {
-      padding-top: 70px;
-      padding-bottom: 70px;
   }
 
   .navbar {
