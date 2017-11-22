@@ -23,23 +23,24 @@ body {
     font-size: 50px;
     }
         
- .welcomeimg {
+.welcomeimg {
     display: block;
     margin: auto;
     width: 10%;
     height: auto;
     }
         
-        .button {
-            display:inline-block;
-            background-image: linear-gradient(to bottom, #3498db, #2980b9);
-            border-radius: 28px;
-            font-family: "Amatic SC", sans-serif, Serif;
-            color: #ffffff;
-            font-size: 20px;
-            padding: 10px 20px 10px 20px;
-            text-decoration: none;
-            }
-        #container{
-                text-align: center;
-            }
+.button {
+    display:inline-block;
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    border-radius: 28px;
+    font-family: "Amatic SC", sans-serif, Serif;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    }
+
+#container{
+        text-align: center;
+    }
