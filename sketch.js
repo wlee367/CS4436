@@ -15,8 +15,8 @@ var sketch = function(p){
   //height scaled
   p.YSCALE = (window.innerHeight/p.ySplit);
   p.XSCALE = (window.innerWidth/p.xSplit);
-
-
+    
+    
   p.boxArray;
 
   //images
@@ -81,14 +81,13 @@ var sketch = function(p){
       p.synthPat.push(0);
       p.percPat.push(0);
     }
-
   }
 
   p.setup = function(){
-    p.canvas = p.createCanvas(window.innerWidth, window.innerHeight);
+    p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
-
   }
+  
   p.draw=function(){
 
     p.background(200);
@@ -96,14 +95,14 @@ var sketch = function(p){
     p.strokeWeight(20);
 
     //SLIDING PLAY BAR
-    // if (p.playing === true){
-    //   p.line(p.x1,window.innerHeight,p.x1,0);
-    //   p.x1 = p.x1 + (54);
-    //   if (p.x1 >= window.innerWidth){
-    //     p.x1 = 0;
-    //     p.playing = false;
-    //   }
-    // }
+    if (p.playing === true){
+      p.line(p.x1,window.innerHeight,p.x1,0);
+      p.x1 = p.x1 + (54);
+      if (p.x1 >= window.innerWidth){
+        p.x1 = 0;
+        p.playing = false;
+      }
+    }
 
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
@@ -166,6 +165,7 @@ var sketch = function(p){
     p.strokeWeight(20);
     p.line(thisLine.p1.x,thisLine.p1.y,thisLine.p2.x,thisLine.p2.y);
   }
+  
   p.drawSelectLine = function(){
     p.strokeWeight(30);
     p.stroke(255,215,0);
