@@ -45,9 +45,8 @@ body {
         text-align: center;
     }
 
-
-
-  .margin {margin-bottom: 45px;}
+  .margin {
+      margin-bottom: 45px;}
   .bg-1 { 
       background-color: #D3D3D3; /* Green */
       color: #ffffff;
@@ -65,14 +64,23 @@ body {
       color: #fff;
   }
 
+
+ .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 32px;
+      letter-spacing: 5px;
+  }
+
+
 .container-fluid {
       padding-top: 70px;
       padding-bottom: 70px;
   }
 
-.navbar-brand{
-    font-size: 32px;  
-  }
   .navbar {
       padding-top: 15px;
       padding-bottom: 15px;
@@ -85,4 +93,4 @@ body {
   .navbar-nav  li a:hover {
       color: #1abc9c !important;
   }
- 
+  
