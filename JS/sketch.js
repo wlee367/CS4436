@@ -11,6 +11,9 @@ var answerArr = [[  //red, blue, green
 var levelDotArr = [[
                       [9,13],[17,9],[21,3],[29,11]
                     ],
+                    [
+                      [2,2],[4,4]
+                    ]
 
                   ];
 var curLev = 0;                    
@@ -103,6 +106,7 @@ var sketch = function(p){
     p.reset();
     p.button = p.createButton('PLAY ANSWER');
     p.button.position(window.innerWidth - 400, 0);
+    p.button.style("background-color",p.color(25,23,200,50));
     p.button.mousePressed(p.playAnswer);
   }
   
@@ -260,6 +264,7 @@ var sketch = function(p){
       p.changeRed();
     } else if (p.keyCode === 51) {
       p.changeBlue();
+      p.levelSelect(curLev +1);
     } else if (p.keyCode === 9) {  //tab key
       if (p.selected_line !== undefined){
         p.clearPatterns();
@@ -438,6 +443,16 @@ var sketch = function(p){
   }
   p.windowResized = function(){
    p.resizeCanvas(window.innerWidth, window.innerHeight);
+  }
+
+
+  p.levelSelect = function (levelNum){
+    if (levelNum < levelDotArr.length){
+      curLev = levelNum;
+      p.pointArray = [];
+      console.log(curLev);
+      p.reset();
+    } 
   }
   
 };
