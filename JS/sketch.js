@@ -10,7 +10,8 @@ var answerArr = [[  //red, blue, green
                 ];
 var levelDotArr = [[
                       [9,13],[17,9],[21,3],[29,11]
-                    ]
+                    ],
+
                   ];
 var curLev = 0;                    
 
@@ -57,6 +58,7 @@ var sketch = function(p){
   p.played = false;
 
   p.correct = false;
+  p.clickButt= false;
 
   p.preload =function(){ 
 
@@ -118,15 +120,17 @@ var sketch = function(p){
     p.stroke(0);
     p.strokeWeight(20);
     //SLIDING PLAY BAR
-    // if (p.playing === true){
-    //   p.line(p.x1,window.innerHeight,p.x1,0);
-    //   p.x1 = p.x1 + (54);
-    //   if (p.x1 >= window.innerWidth){
-    //     p.x1 = 0;
-    //     p.playing = false;
-    //   }
-    // }
+    if (p.playing === true){
+      p.strokeWeight(10);
+      p.line(p.x1,window.innerHeight,p.x1,0);
+      p.x1 = p.x1 + (window.innerWidth/30);
+      if (p.x1 >= window.innerWidth){
+        p.x1 = 0;
+        p.playing = false;
+      }
+    }
 
+    p.strokeWeight(20);
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
     p.oldsectionY = p.sectionMouseY;
@@ -198,10 +202,11 @@ var sketch = function(p){
 
   p.mousePressed = function(){
     //play initial sound based on p.sectionMouseY
-    // console.log(p.sectionMouseY);
+    if (p.clickButt == false){
       p.currentInst.sArray[p.sectionMouseY].play();
       p.played = true;
-
+    }
+    p.clickButt = false;
 
   //select the nearest point
     for(var i =0; i < p.pointArray.length; i++){
@@ -388,6 +393,8 @@ var sketch = function(p){
   }
 
   p.playAnswer = function(){
+    p.clickButt = true;
+
     p.myPart = new p5.Part();
     p.myPart.addPhrase(new p5.Phrase("p",p.playPiano,answerArr[curLev][0]));
     p.myPart.addPhrase(new p5.Phrase("s",p.playSynth,answerArr[curLev][1]));
