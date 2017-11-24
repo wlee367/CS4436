@@ -102,6 +102,8 @@ var sketch = function(p){
   }
 
   p.setup = function(){
+    p.frameRate(120);
+
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
     p.button = p.createButton('PLAY ANSWER');
@@ -122,7 +124,7 @@ var sketch = function(p){
     }
 
     p.stroke(0);
-    p.strokeWeight(20);
+
     //SLIDING PLAY BAR
     if (p.playing === true){
       p.strokeWeight(10);
@@ -134,6 +136,16 @@ var sketch = function(p){
       }
     }
 
+    //perc square
+    if (p.currentCol == 1){
+      p.stroke(0,255,0);
+      p.strokeWeight(2);
+      p.fill(0,255,0);
+      p.rect(p.mouseX-25,p.mouseY-25, 50,50, 20);
+    }
+
+
+    p.stroke(0);
     p.strokeWeight(20);
     //CALC where mouse is on Y axis --for playing sounds when mosue is clicked/dragged
     //check if it changes
@@ -143,14 +155,16 @@ var sketch = function(p){
       p.played = false;
     }
 
-    //draw points
-    for(var i = 0; i <p.pointArray.length; i++){
-      p.pointArray[i].display();
-    }
-
     //draw slected line
     if (p.selected_line !== undefined){
       p.drawSelectLine();
+    }
+
+    //draw points
+    for(var i = 0; i <p.pointArray.length; i++){
+      p.stroke(0);
+      p.strokeWeight(20);
+      p.pointArray[i].display();
     }
 
     //draw lines
@@ -158,6 +172,8 @@ var sketch = function(p){
       p.drawLine(p.lineArray[index]);
  
     }
+
+  
 
     //draw paint cans
     //with current tint
@@ -198,9 +214,15 @@ var sketch = function(p){
   }
   
   p.drawSelectLine = function(){
-    p.strokeWeight(30);
     p.stroke(255,215,0);
-    p.line(p.selected_line.p1.x,p.selected_line.p1.y,p.selected_line.p2.x, p.selected_line.p2.y);
+    if (p.selected_line.p1 != undefined){
+      p.strokeWeight(30);
+      p.line(p.selected_line.p1.x,p.selected_line.p1.y,p.selected_line.p2.x, p.selected_line.p2.y);
+    }else{ //selected line is a perc point
+      p.strokeWeight(2);
+      p.fill(255,215,0);
+      p.rect(p.selected_line.x-30,p.selected_line.y-30, 60,60, 20);
+    }
   }
 
 
@@ -218,8 +240,17 @@ var sketch = function(p){
         if(p.d < 10){
           console.log('fire');
           p.selected_point = p.pointArray[i];
+          //if it is perc
+          if (p.currentCol == 1){
+            p.selected_point.connectedPerc = true;
+            p.selected_point.connected = true;
+          }
           if (p.selected_point.connected === true){
-            p.selected_line = p.selected_point.attachedLine;
+            if (p.selected_point.connectedPerc == true){
+              p.selected_line =p.selected_point;
+            }else{
+              p.selected_line = p.selected_point.attachedLine;
+            }
           }
         }
       }
@@ -233,22 +264,24 @@ var sketch = function(p){
     }
 
     //check for drawing lines
-    for(var i =0; i < p.pointArray.length; i++){
-      d = p.dist(p.pointArray[i].x, p.pointArray[i].y, p.mouseX, p.mouseY);
-      p1 = p.pointArray[i];
-      if((p.selected_point) && (d<10) && (p1 !== p.selected_point) && (p1.connected === false) && (p.selected_point.connected === false)){
+    if (p.currentCol != 1){
+      for(var i =0; i < p.pointArray.length; i++){
+        d = p.dist(p.pointArray[i].x, p.pointArray[i].y, p.mouseX, p.mouseY);
+        p1 = p.pointArray[i];
+        if((p.selected_point) && (d<10) && (p1 !== p.selected_point) && (p1.connected === false) && (p.selected_point.connected === false)){
 
-        newLine = new lineClass(p, p1, p.selected_point, p.currentCol);
-        p.lineArray.push(newLine);
-        console.log("New line from");
-        p1.connected = true;
-        p.selected_point.connected = true;
-        p.selected_line = newLine;
+          newLine = new lineClass(p, p1, p.selected_point, p.currentCol);
+          p.lineArray.push(newLine);
+          console.log("New line from");
+          p1.connected = true;
+          p.selected_point.connected = true;
+          p.selected_line = newLine;
 
-        //setPoints attached line
-        p1.attachedLine = newLine;
-        p.selected_point.attachedLine = newLine;
+          //setPoints attached line
+          p1.attachedLine = newLine;
+          p.selected_point.attachedLine = newLine;
 
+        }
       }
     }
   }
@@ -269,18 +302,29 @@ var sketch = function(p){
       if (p.selected_line !== undefined){
         p.clearPatterns();
         //erase data from points
-        p.selected_line.p1.disconnect();
-        p.selected_line.p2.disconnect();
-        //delete line from list
-        var ind = p.lineArray.indexOf(p.selected_line);
-        p.lineArray.splice(ind, 1);
+        if (p.selected_line.p1 != undefined){ //if not perc dot
+          p.selected_line.p1.disconnect();
+          p.selected_line.p2.disconnect();
+          //delete line from list
+          var ind = p.lineArray.indexOf(p.selected_line);
+          p.lineArray.splice(ind, 1);
+        }else{ //if perc dot
+          p.selected_line.disconnect();
+        }
         //take away selected line
         p.selected_line = undefined;
       }
     } //press 'P' to compile boxs and play melody
     else if (p.keyCode === 80){
-      if (p.lineArray.length > 0){
-      console.log("enter press");
+      var percSend = false;
+      for (var i=0; i<p.pointArray.length; i++){
+        if (p.pointArray[i].connectedPerc){
+          percSend = true;
+        }   
+      }
+
+      if (p.lineArray.length > 0 || percSend == true){
+      console.log("enter play");
       //cycle through all boxes
       for (var h=0; h< p.ySplit; h++){
         for (var w =0; w< p.xSplit; w++){
@@ -288,9 +332,17 @@ var sketch = function(p){
           for (var index = 0; index < p.lineArray.length; index++){
             p.boxArray[h][w].collide(p.lineArray[index]); //finds collision points and updates box class
           }
+
           //x-yspots are place in the 16/32 array
           xspot =p.boxArray[h][w].x/p.XSCALE;
           yspot =p.boxArray[h][w].y/p.YSCALE;
+
+          //perc collison
+          for (var i=0; i<p.pointArray.length; i++){
+            if (p.pointArray[i].connectedPerc){
+              p.boxArray[h][w].collidePerc(p.pointArray[i]);
+            }   
+          }
 
           if (p.boxArray[h][w].r === true){
             p.pianoPat.splice(xspot, 1, yspot);
@@ -302,6 +354,7 @@ var sketch = function(p){
             p.percPat.splice(xspot, 1, yspot);
           }
         }
+      
       }
       //check for double notes
       p.pianoPat = p.clean(p.pianoPat);

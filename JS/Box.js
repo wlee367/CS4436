@@ -18,13 +18,19 @@ function Box(canvas,x,y,w,h){
 
 		if (this.hit.right.x != false || this.hit.left.x != false || this.hit.top.x != false|| this.hit.bottom.x != false){
 			col = line.color;
-			if (col === 1){
-				this.g = true;
-			}else if (col ===2){
+			if (col ===2){
 				this.r = true;
 			}else if (col ===3){
 				this.b =true;
 			}
+		}
+	}
+
+	this.collidePerc = function(point){
+		this.hit = canvas.collidePointRect(point.x,point.y,this.x,this.y,this.w,this.h);
+
+		if (this.hit){
+			this.g = true;
 		}
 	}
 
