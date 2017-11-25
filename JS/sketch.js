@@ -70,6 +70,11 @@ var sketch = function(p){
     p.red = p.loadImage("/assets/paintCanRED.png");
     p.green = p.loadImage("assets/paintCanGREEN.png");
 
+    p.question_answer = p.loadImage("assets/ic_question_answer_black_24px.svg");
+    p.next_arrow_button = p.loadImage("assets/ic_keyboard_arrow_right_black_24px.svg");
+    p.prev_arrow_button = p.loadImage("assets/ic_keyboard_arrow_left_black_24px.svg");
+    p.back_button = p.loadImage("assets/ic_arrow_back_black_36px.svg")
+
     p.piano = new Piano(p);
     p.synth = new Synth(p);
     p.perc = new Perc(p);
@@ -106,10 +111,17 @@ var sketch = function(p){
 
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
-    p.button = p.createButton('PLAY ANSWER');
-    p.button.position(window.innerWidth - 400, 0);
+
+    p.button = p.createButton('PLAY WHAT I AM SUPPOSED TO PLAY');
+    p.button.position((window.innerWidth - window.innerWidth)+100, 0);
     p.button.style("background-color",p.color(25,23,200,50));
     p.button.mousePressed(p.playAnswer);
+
+    p.button = p.createButton('PLAY WHAT I HAVE');
+    p.button.position((window.innerWidth - window.innerWidth)+350, 0);
+    p.button.style("background-color", p.color(25,23,200,50));
+    //p.button.mousepressed()...
+
   }
   
   p.draw=function(){
@@ -173,32 +185,59 @@ var sketch = function(p){
  
     }
 
-  
-
+    //draw nav bar
+    p.noStroke();
+    p.strokeWeight(2);
+    p.fill(255,255,255,[0.3]);
+    p.rect(0,0, window.innerWidth, window.innerHeight/16);
     //draw paint cans
     //with current tint
     if (p.currentCol === 1){
       p.currentInst = p.perc;
       p.noTint();
-      p.image(p.green, (innerWidth-300),0, 75, 100);
+      p.image(p.green, (innerWidth-300),0, 35, 40);
       p.tint(255, 126);
-      p.image(p.red, (innerWidth-200),0, 75, 100);
-      p.image(p.blue, (innerWidth-100),0, 75, 100);
+      p.image(p.red, (innerWidth-200),0, 35, 40);
+      p.image(p.blue, (innerWidth-100),0, 35, 40);
     }else if (p.currentCol === 2){
       p.currentInst =p.piano;
       p.noTint();
-      p.image(p.red, (innerWidth-200),0, 75, 100);
+      p.image(p.red, (innerWidth-200),0, 35, 40);
       p.tint(255, 126);
-      p.image(p.green, (innerWidth-300),0, 75, 100);
-      p.image(p.blue, (innerWidth-100),0, 75, 100);
+      p.image(p.green, (innerWidth-300),0, 35, 40);
+      p.image(p.blue, (innerWidth-100),0, 35, 40);
     }else if (p.currentCol === 3){
       p.currentInst =p.synth;
       p.noTint();
-      p.image(p.blue, (innerWidth-100),0, 75, 100);
+      p.image(p.blue, (innerWidth-100),0, 35, 40);
       p.tint(255, 126);
-      p.image(p.green, (innerWidth-300),0, 75, 100);
-      p.image(p.red, (innerWidth-200),0, 75, 100);
+      p.image(p.green, (innerWidth-300),0, 35, 40);
+      p.image(p.red, (innerWidth-200),0, 35, 40);
     }
+
+    //Draw Tutorial button - on click we want this to show a popup button
+    //ic_question_answer_black_24px.svg
+    p.image(p.question_answer, (innerWidth-450), 0, 35,45);
+
+    //Display Current Level
+
+    p.display_level = curLev+1; //get current level and add 1 because current level is 0 by default @jake
+    p.textSize(34);
+    p.fill(50);   
+    p.text("Level "+ p.display_level , ((window.innerWidth/2)-50), window.innerHeight/19);
+
+    /*Draw left and right arrows for next level - these buttons will be assigned a 
+    * specific coordinates so its easy to detect mousePressed so Jake or hannah or Jason can 
+    * go in and implement next and previous level stuff
+    */
+
+    p.image(p.next_arrow_button, ((window.innerWidth/2)+70), ((window.innerHeight)/200), 35,45);  //right arrow
+    p.image(p.prev_arrow_button, ((window.innerWidth/2)-95), ((window.innerHeight)/200), 35,45);  //Left arrow
+
+    //Draw back button, on pressed this button will take the user back to index.html
+    //ic_arrow_back_black_36px.svg
+    p.image(p.back_button, 0, 0, 35,45);
+  
   }
   p.drawLine = function(thisLine){
     if (thisLine.color === 1){
@@ -254,6 +293,13 @@ var sketch = function(p){
           }
         }
       }
+
+    p.de = p.dist(0,0,p.mouseX, p.mouseY);
+    if(p.de < 45){
+      //take the user back to index.html
+      window.open("/index.html", "_self");
+      console.log("fire");
+    }
   }
   p.mouseDragged = function(){
 
