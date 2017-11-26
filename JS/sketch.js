@@ -13,10 +13,17 @@ var levelDotArr = [[
                     ],
                     [
                       [2,2],[4,4]
+                    ],
+                    [
+                    [3,3], [6,2], [17,11], [13,8]
+                    ],
+                    [
+                    [4,2], [2,12], [4, 12], [12, 15], [12, 22]
                     ]
 
                   ];
-var curLev = 0;                    
+var curLev = 0;
+var maxLev = 4;                    
 
 
 var sketch = function(p){
@@ -107,23 +114,106 @@ var sketch = function(p){
   }
 
   p.setup = function(){
+    var myDivButtonOne = p.createDiv('');
+    var myDivButtonTwo = p.createDiv('');
+
     p.frameRate(120);
 
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
 
     p.button = p.createButton('PLAY WHAT I AM SUPPOSED TO PLAY');
-    p.button.position((window.innerWidth - window.innerWidth)+100, 0);
+    //p.button.position((window.innerWidth - window.innerWidth)+100, 0);
+    //p.button.position((window.screen.width)/20, 0);
+      
+    p.button.position((p.XSCALE)*2, 0);
+    p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
+    p.button.style("width", "145px");
+    p.button.style("height", "40px");
+    p.button.style("text-align", "center");
+    p.button.style("border", "2px solid");
+    p.button.style("border-radius", "10px");
+    p.button.style("border-color", "purple");
+    p.button.style("font-size", "12px");
     p.button.mousePressed(p.playAnswer);
+ 
 
     p.button = p.createButton('PLAY WHAT I HAVE');
-    p.button.position((window.innerWidth - window.innerWidth)+350, 0);
-    p.button.style("background-color", p.color(25,23,200,50));
-    //p.button.mousepressed()...
+    //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
+    //p.button.position((window.screen.width)/3.8, 0);
+    p.button.position((p.XSCALE)*7, 0);
+    p.button.style.position = "relative";
+    p.button.style("background-color",p.color(25,23,200,50));
+    p.button.style("width", "120px");
+    p.button.style("height", "40px");
+    p.button.style("text-align", "center");
+    p.button.style("border", "2px solid");
+    p.button.style("border-radius", "10px");
+    p.button.style("border-color", "purple");
+    p.button.style("font-size", "12px");
+    p.button.mousePressed(p.play_what_i_have);
 
+      
+    // p.button = p.createButton('Help');
+    // //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
+    // //p.button.position((window.screen.width)/1.5, 0);
+    // p.button.position((p.XSCALE)*28, 0);
+    // p.button.style.position = "relative";
+    // p.button.style("background-color", p.color(25,23,200,50));
+    // p.button.style("font-size", "12px");
+    //p.button.mousepressed()...  
   }
-  
+  p.play_what_i_have = function(){
+          var percSend = false;
+      for (var i=0; i<p.pointArray.length; i++){
+        if (p.pointArray[i].connectedPerc){
+          percSend = true;
+        }   
+      }
+
+      if (p.lineArray.length > 0 || percSend == true){
+      console.log("enter play");
+      //cycle through all boxes
+      for (var h=0; h< p.ySplit; h++){
+        for (var w =0; w< p.xSplit; w++){
+          //cycle through all lines
+          for (var index = 0; index < p.lineArray.length; index++){
+            p.boxArray[h][w].collide(p.lineArray[index]); //finds collision points and updates box class
+          }
+
+          //x-yspots are place in the 16/32 array
+          xspot =p.boxArray[h][w].x/p.XSCALE;
+          yspot =p.boxArray[h][w].y/p.YSCALE;
+
+          //perc collison
+          for (var i=0; i<p.pointArray.length; i++){
+            if (p.pointArray[i].connectedPerc){
+              p.boxArray[h][w].collidePerc(p.pointArray[i]);
+            }   
+          }
+
+          if (p.boxArray[h][w].r === true){
+            p.pianoPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].b === true){
+            p.synthPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].g === true){
+            p.percPat.splice(xspot, 1, yspot);
+          }
+      }
+      }        //check for double notes
+      p.pianoPat = p.clean(p.pianoPat);
+      p.synthPat = p.clean(p.synthPat);
+      p.percPat = p.clean(p.percPat);
+      console.log(p.pianoPat);
+      console.log(p.synthPat);
+      console.log(p.percPat);
+      p.playback();
+    }
+  }
+
   p.draw=function(){
 
     p.background(200);
@@ -141,7 +231,7 @@ var sketch = function(p){
     if (p.playing === true){
       p.strokeWeight(10);
       p.line(p.x1,window.innerHeight,p.x1,0);
-      p.x1 = p.x1 + (window.innerWidth/30);
+      p.x1 = p.x1 + (window.innerWidth/28);
       if (p.x1 >= window.innerWidth){
         p.x1 = 0;
         p.playing = false;
@@ -217,7 +307,7 @@ var sketch = function(p){
 
     //Draw Tutorial button - on click we want this to show a popup button
     //ic_question_answer_black_24px.svg
-    p.image(p.question_answer, (innerWidth-450), 0, 35,45);
+    p.image(p.question_answer, (window.innerWidth-450), 0, 35,45);
 
     //Display Current Level
 
@@ -300,6 +390,64 @@ var sketch = function(p){
       window.open("/index.html", "_self");
       console.log("fire");
     }
+
+    /*
+     p.image(p.next_arrow_button, ((window.innerWidth/2)+70), ((window.innerHeight)/200), 35,45);  //right arrow
+    p.image(p.prev_arrow_button, ((window.innerWidth/2)-95), ((window.innerHeight)/200), 35,45);  //Left arrow
+    */
+    p.distance_right_arrow = p.dist(((window.innerWidth/2)+70), (window.innerHeight/200), p.mouseX, p.mouseY);
+    if(p.distance_right_arrow < 45){
+      console.log("hey");
+      // p.reset();
+      if (p.selected_line !== undefined){
+        p.clearPatterns();
+        //erase data from points
+        if (p.selected_line.p1 != undefined){ //if not perc dot
+          p.selected_line.p1.disconnect();
+          p.selected_line.p2.disconnect();
+          //delete line from list
+          var ind = p.lineArray.indexOf(p.selected_line);
+          p.lineArray.splice(ind, 1);
+        }else{ //if perc dot
+          p.selected_line.disconnect();
+        }
+        //take away selected line
+        p.selected_line = undefined;
+      }
+      p.clearPatterns();
+      p.levelSelect(curLev + 1);
+    }
+
+    p.distance_left_arrow = p.dist(((window.innerWidth/2)-95), ((window.innerHeight)/200), p.mouseX, p.mouseY);
+    if(p.distance_left_arrow < 45){
+      console.log("they always ask wyd but never hyd");
+      if(curLev != 0){
+        // p.reset();
+        // p.clearPatterns()
+      if (p.selected_line !== undefined){
+        p.clearPatterns();
+        //erase data from points
+        if (p.selected_line.p1 != undefined){ //if not perc dot
+          p.selected_line.p1.disconnect();
+          p.selected_line.p2.disconnect();
+          //delete line from list
+          var ind = p.lineArray.indexOf(p.selected_line);
+          p.lineArray.splice(ind, 1);
+        }else{ //if perc dot
+          p.selected_line.disconnect();
+        }
+        //take away selected line
+        p.selected_line = undefined;
+      }
+        p.levelSelect(curLev-1);
+      }
+    }
+
+    // p.image(p.question_answer, (innerWidth-450), 0, 35,45);
+    p.distance_question = p.dist((window.innerWidth-450), 0, p.mouseX, p.mouseY);
+    if(p.distance_question < 45){
+      window.open("/index.html", "_blank");
+    }
   }
   p.mouseDragged = function(){
 
@@ -343,7 +491,7 @@ var sketch = function(p){
       p.changeRed();
     } else if (p.keyCode === 51) {
       p.changeBlue();
-      p.levelSelect(curLev +1);
+      // p.levelSelect(curLev +1);
     } else if (p.keyCode === 9) {  //tab key
       if (p.selected_line !== undefined){
         p.clearPatterns();
