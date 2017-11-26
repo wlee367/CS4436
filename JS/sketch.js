@@ -114,6 +114,9 @@ var sketch = function(p){
   }
 
   p.setup = function(){
+    var myDivButtonOne = p.createDiv('');
+    var myDivButtonTwo = p.createDiv('');
+
     p.frameRate(120);
 
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
@@ -124,7 +127,11 @@ var sketch = function(p){
     p.button.position((window.screen.width)/20, 0);
     p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
+    p.button.style("width", "120px");
+    p.button.style("height", "40px");
     p.button.mousePressed(p.playAnswer);
+ 
+   
 
       
     p.button = p.createButton('PLAY WHAT I HAVE');
@@ -327,6 +334,8 @@ var sketch = function(p){
     p.distance_right_arrow = p.dist(((window.innerWidth/2)+70), (window.innerHeight/200), p.mouseX, p.mouseY);
     if(p.distance_right_arrow < 45){
       console.log("hey");
+      // p.reset();
+      p.clearPatterns();
       p.levelSelect(curLev + 1);
     }
 
@@ -334,6 +343,8 @@ var sketch = function(p){
     if(p.distance_left_arrow < 45){
       console.log("they always ask wyd but never hyd");
       if(curLev != 0){
+        // p.reset();
+        // p.clearPatterns()
         p.levelSelect(curLev-1);
       }
     }
