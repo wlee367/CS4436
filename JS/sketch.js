@@ -134,6 +134,13 @@ var sketch = function(p){
     p.button.style("background-color", p.color(25,23,200,50));
     //p.button.mousepressed()...
 
+      
+    p.button = p.createButton('Help');
+    //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
+    p.button.position((window.screen.width)/1.5, 0);
+    p.button.style.position = "relative";
+    p.button.style("background-color", p.color(25,23,200,50));
+    //p.button.mousepressed()...  
   }
   
   p.draw=function(){
