@@ -129,7 +129,7 @@ var sketch = function(p){
     p.button.position((p.XSCALE)*2, 0);
     p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
-    p.button.style("width", "120px");
+    p.button.style("width", "145px");
     p.button.style("height", "40px");
     p.button.style("text-align", "center");
     p.button.style("border", "2px solid");
@@ -155,13 +155,13 @@ var sketch = function(p){
     //p.button.mousepressed()...
 
       
-    p.button = p.createButton('Help');
-    //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
-    //p.button.position((window.screen.width)/1.5, 0);
-    p.button.position((p.XSCALE)*28, 0);
-    p.button.style.position = "relative";
-    p.button.style("background-color", p.color(25,23,200,50));
-    p.button.style("font-size", "12px");
+    // p.button = p.createButton('Help');
+    // //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
+    // //p.button.position((window.screen.width)/1.5, 0);
+    // p.button.position((p.XSCALE)*28, 0);
+    // p.button.style.position = "relative";
+    // p.button.style("background-color", p.color(25,23,200,50));
+    // p.button.style("font-size", "12px");
     //p.button.mousepressed()...  
   }
   
@@ -182,7 +182,7 @@ var sketch = function(p){
     if (p.playing === true){
       p.strokeWeight(10);
       p.line(p.x1,window.innerHeight,p.x1,0);
-      p.x1 = p.x1 + (window.innerWidth/30);
+      p.x1 = p.x1 + (window.innerWidth/28s);
       if (p.x1 >= window.innerWidth){
         p.x1 = 0;
         p.playing = false;
@@ -258,7 +258,7 @@ var sketch = function(p){
 
     //Draw Tutorial button - on click we want this to show a popup button
     //ic_question_answer_black_24px.svg
-    p.image(p.question_answer, (innerWidth-450), 0, 35,45);
+    p.image(p.question_answer, (window.innerWidth-450), 0, 35,45);
 
     //Display Current Level
 
@@ -364,6 +364,11 @@ var sketch = function(p){
       }
     }
 
+    // p.image(p.question_answer, (innerWidth-450), 0, 35,45);
+    p.distance_question = p.dist((window.innerWidth-450), 0, p.mouseX, p.mouseY);
+    if(p.distance_question < 45){
+      window.open("/index.html", "_blank");
+    }
   }
   p.mouseDragged = function(){
 
