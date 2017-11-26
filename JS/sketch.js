@@ -165,7 +165,7 @@ var sketch = function(p){
     //p.button.mousepressed()...  
   }
   p.play_what_i_have = function(){
-          var percSend = false;
+      var percSend = false;
       for (var i=0; i<p.pointArray.length; i++){
         if (p.pointArray[i].connectedPerc){
           percSend = true;
@@ -213,16 +213,15 @@ var sketch = function(p){
       p.playback();
     }
   }
-
   p.draw=function(){
 
     p.background(200);
 
-    if (p.correct != false){
-      p.stroke(200);
-      p.textSize(30);
-      p.text("CORRECT!", 500, p.YSCALE);
-      p.textAlign(p.CENTER);
+    if (p.correct != false){ // are you fucking kidding jake
+     // p.stroke(200);
+     // p.textSize(30);
+     //  p.text("CORRECT!", 500, p.YSCALE + 300);
+     //  p.textAlign(p.CENTER);
     }
 
     p.stroke(0);
