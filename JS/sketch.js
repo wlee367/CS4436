@@ -124,7 +124,9 @@ var sketch = function(p){
 
     p.button = p.createButton('PLAY WHAT I AM SUPPOSED TO PLAY');
     //p.button.position((window.innerWidth - window.innerWidth)+100, 0);
-    p.button.position((window.screen.width)/20, 0);
+    //p.button.position((window.screen.width)/20, 0);
+      
+    p.button.position((p.XSCALE)*2, 0);
     p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
     p.button.style("width", "120px");
@@ -136,12 +138,11 @@ var sketch = function(p){
     p.button.style("font-size", "12px");
     p.button.mousePressed(p.playAnswer);
  
-   
 
-      
     p.button = p.createButton('PLAY WHAT I HAVE');
     //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
-    p.button.position((window.screen.width)/3.8, 0);
+    //p.button.position((window.screen.width)/3.8, 0);
+    p.button.position((p.XSCALE)*7, 0);
     p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
     p.button.style("width", "120px");
@@ -156,7 +157,8 @@ var sketch = function(p){
       
     p.button = p.createButton('Help');
     //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
-    p.button.position((window.screen.width)/1.5, 0);
+    //p.button.position((window.screen.width)/1.5, 0);
+    p.button.position((p.XSCALE)*28, 0);
     p.button.style.position = "relative";
     p.button.style("background-color", p.color(25,23,200,50));
     p.button.style("font-size", "12px");
