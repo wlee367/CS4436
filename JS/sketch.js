@@ -129,6 +129,11 @@ var sketch = function(p){
     p.button.style("background-color",p.color(25,23,200,50));
     p.button.style("width", "120px");
     p.button.style("height", "40px");
+    p.button.style("text-align", "center");
+    p.button.style("border", "2px solid");
+    p.button.style("border-radius", "10px");
+    p.button.style("border-color", "purple");
+    p.button.style("font-size", "12px");
     p.button.mousePressed(p.playAnswer);
  
    
@@ -138,7 +143,14 @@ var sketch = function(p){
     //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
     p.button.position((window.screen.width)/3.8, 0);
     p.button.style.position = "relative";
-    p.button.style("background-color", p.color(25,23,200,50));
+    p.button.style("background-color",p.color(25,23,200,50));
+    p.button.style("width", "120px");
+    p.button.style("height", "40px");
+    p.button.style("text-align", "center");
+    p.button.style("border", "2px solid");
+    p.button.style("border-radius", "10px");
+    p.button.style("border-color", "purple");
+    p.button.style("font-size", "12px");
     //p.button.mousepressed()...
 
       
@@ -147,6 +159,7 @@ var sketch = function(p){
     p.button.position((window.screen.width)/1.5, 0);
     p.button.style.position = "relative";
     p.button.style("background-color", p.color(25,23,200,50));
+    p.button.style("font-size", "12px");
     //p.button.mousepressed()...  
   }
   
