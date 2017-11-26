@@ -399,6 +399,21 @@ var sketch = function(p){
     if(p.distance_right_arrow < 45){
       console.log("hey");
       // p.reset();
+      if (p.selected_line !== undefined){
+        p.clearPatterns();
+        //erase data from points
+        if (p.selected_line.p1 != undefined){ //if not perc dot
+          p.selected_line.p1.disconnect();
+          p.selected_line.p2.disconnect();
+          //delete line from list
+          var ind = p.lineArray.indexOf(p.selected_line);
+          p.lineArray.splice(ind, 1);
+        }else{ //if perc dot
+          p.selected_line.disconnect();
+        }
+        //take away selected line
+        p.selected_line = undefined;
+      }
       p.clearPatterns();
       p.levelSelect(curLev + 1);
     }
@@ -409,6 +424,21 @@ var sketch = function(p){
       if(curLev != 0){
         // p.reset();
         // p.clearPatterns()
+      if (p.selected_line !== undefined){
+        p.clearPatterns();
+        //erase data from points
+        if (p.selected_line.p1 != undefined){ //if not perc dot
+          p.selected_line.p1.disconnect();
+          p.selected_line.p2.disconnect();
+          //delete line from list
+          var ind = p.lineArray.indexOf(p.selected_line);
+          p.lineArray.splice(ind, 1);
+        }else{ //if perc dot
+          p.selected_line.disconnect();
+        }
+        //take away selected line
+        p.selected_line = undefined;
+      }
         p.levelSelect(curLev-1);
       }
     }
