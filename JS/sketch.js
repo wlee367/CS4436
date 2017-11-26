@@ -697,6 +697,7 @@ var sketch = function(p){
       curLev = levelNum;
       p.pointArray = [];
       console.log(curLev);
+      p.lineArray = [];
       p.reset();
     } 
   }
