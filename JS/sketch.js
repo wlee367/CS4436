@@ -152,7 +152,7 @@ var sketch = function(p){
     p.button.style("border-radius", "10px");
     p.button.style("border-color", "purple");
     p.button.style("font-size", "12px");
-    //p.button.mousepressed()...
+    p.button.mousePressed(p.play_what_i_have);
 
       
     // p.button = p.createButton('Help');
@@ -164,7 +164,56 @@ var sketch = function(p){
     // p.button.style("font-size", "12px");
     //p.button.mousepressed()...  
   }
-  
+  p.play_what_i_have = function(){
+          var percSend = false;
+      for (var i=0; i<p.pointArray.length; i++){
+        if (p.pointArray[i].connectedPerc){
+          percSend = true;
+        }   
+      }
+
+      if (p.lineArray.length > 0 || percSend == true){
+      console.log("enter play");
+      //cycle through all boxes
+      for (var h=0; h< p.ySplit; h++){
+        for (var w =0; w< p.xSplit; w++){
+          //cycle through all lines
+          for (var index = 0; index < p.lineArray.length; index++){
+            p.boxArray[h][w].collide(p.lineArray[index]); //finds collision points and updates box class
+          }
+
+          //x-yspots are place in the 16/32 array
+          xspot =p.boxArray[h][w].x/p.XSCALE;
+          yspot =p.boxArray[h][w].y/p.YSCALE;
+
+          //perc collison
+          for (var i=0; i<p.pointArray.length; i++){
+            if (p.pointArray[i].connectedPerc){
+              p.boxArray[h][w].collidePerc(p.pointArray[i]);
+            }   
+          }
+
+          if (p.boxArray[h][w].r === true){
+            p.pianoPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].b === true){
+            p.synthPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].g === true){
+            p.percPat.splice(xspot, 1, yspot);
+          }
+      }
+      }        //check for double notes
+      p.pianoPat = p.clean(p.pianoPat);
+      p.synthPat = p.clean(p.synthPat);
+      p.percPat = p.clean(p.percPat);
+      console.log(p.pianoPat);
+      console.log(p.synthPat);
+      console.log(p.percPat);
+      p.playback();
+    }
+  }
+
   p.draw=function(){
 
     p.background(200);
@@ -182,7 +231,7 @@ var sketch = function(p){
     if (p.playing === true){
       p.strokeWeight(10);
       p.line(p.x1,window.innerHeight,p.x1,0);
-      p.x1 = p.x1 + (window.innerWidth/28s);
+      p.x1 = p.x1 + (window.innerWidth/28);
       if (p.x1 >= window.innerWidth){
         p.x1 = 0;
         p.playing = false;
