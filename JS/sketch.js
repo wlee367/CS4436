@@ -13,10 +13,17 @@ var levelDotArr = [[
                     ],
                     [
                       [2,2],[4,4]
+                    ],
+                    [
+                    [3,3], [6,2], [17,11], [13,8]
+                    ],
+                    [
+                    [4,2], [2,12], [4, 12], [12, 15], [12, 22]
                     ]
 
                   ];
-var curLev = 0;                    
+var curLev = 0;
+var maxLev = 4;                    
 
 
 var sketch = function(p){
@@ -305,6 +312,25 @@ var sketch = function(p){
       window.open("/index.html", "_self");
       console.log("fire");
     }
+
+    /*
+     p.image(p.next_arrow_button, ((window.innerWidth/2)+70), ((window.innerHeight)/200), 35,45);  //right arrow
+    p.image(p.prev_arrow_button, ((window.innerWidth/2)-95), ((window.innerHeight)/200), 35,45);  //Left arrow
+    */
+    p.distance_right_arrow = p.dist(((window.innerWidth/2)+70), (window.innerHeight/200), p.mouseX, p.mouseY);
+    if(p.distance_right_arrow < 45){
+      console.log("hey");
+      p.levelSelect(curLev + 1);
+    }
+
+    p.distance_left_arrow = p.dist(((window.innerWidth/2)-95), ((window.innerHeight)/200), p.mouseX, p.mouseY);
+    if(p.distance_left_arrow < 45){
+      console.log("they always ask wyd but never hyd");
+      if(curLev != 0){
+        p.levelSelect(curLev-1);
+      }
+    }
+
   }
   p.mouseDragged = function(){
 
@@ -348,7 +374,7 @@ var sketch = function(p){
       p.changeRed();
     } else if (p.keyCode === 51) {
       p.changeBlue();
-      p.levelSelect(curLev +1);
+      // p.levelSelect(curLev +1);
     } else if (p.keyCode === 9) {  //tab key
       if (p.selected_line !== undefined){
         p.clearPatterns();
