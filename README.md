@@ -16,12 +16,12 @@ MmmDot is an innovative game that merges creativity and problem solving as users
 
 **How To Play**
 
-Use the keyboard numbers 1, 2, or 3 to switch between instruments.
-To draw the line, click on one point and drag to another point.
-To delete the line, click on one point of the line, and press 'tab'.
-To play what you have, press the 'Play What I Have' button
-To listen to what you are supposed to recreate, press the 'Play What I Am Supposed To' button
-At any time you need to see the instructions again, press the question/answer icon on the navigation bar, this will take you back to the front page where you can scroll down to the instructions on the website. 
+1) Use the keyboard numbers 1, 2, or 3 to switch between instruments.
+2) To draw the line, click on one point and drag to another point.
+3) To delete the line, click on one point of the line, and press 'tab'.
+4) To play what you have, press the 'Play What I Have' button
+5) To listen to what you are supposed to recreate, press the 'Play What I Am Supposed To' button
+6) At any time you need to see the instructions again, press the question/answer icon on the navigation bar, this will take you back to the front page where you can scroll down to the instructions on the website. 
 
 **To Run locally:**
 
