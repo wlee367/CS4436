@@ -85,7 +85,12 @@ var sketch = function(p){
 
   p.preload =function(){ 
 
-    
+    p.sfx_level_completed = p.loadSound("/assets/sfx_ui/sfx_level_completed.wav");
+    p.ui_menu_forward = p.loadSound("/assets/sfx_ui/ui_menu_forward.wav");
+    p.ui_menu_backwards = p.loadSound("/assets/sfx_ui/ui_menu_backward.wav");
+    p.ui_select_paintcan = p.loadSound("/assets/sfx_ui/ui_select_paintcan.wav");
+    p.ui_select_playback = p.loadSound("/assets/sfx_ui/ui_select_playback.wav");
+
     p.blue = p.loadImage("/assets/paintCanBLUE.png");
     p.red = p.loadImage("/assets/paintCanRED.png");
     p.green = p.loadImage("assets/paintCanGREEN.png");
@@ -136,6 +141,9 @@ var sketch = function(p){
     p.reset();
 
     p.button = p.createButton('PLAY WHAT I AM SUPPOSED TO PLAY');
+    //p.button.position((window.innerWidth - window.innerWidth)+100, 0);
+    //p.button.position((window.screen.width)/20, 0);
+      
     p.button.position((p.XSCALE)*2, 0);
     p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
@@ -150,7 +158,9 @@ var sketch = function(p){
  
 
     p.button = p.createButton('PLAY WHAT I HAVE');
-    p.button.position((p.XSCALE)*7.5, 0);
+    //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
+    //p.button.position((window.screen.width)/3.8, 0);
+    p.button.position((p.XSCALE)*7, 0);
     p.button.style.position = "relative";
     p.button.style("background-color",p.color(25,23,200,50));
     p.button.style("width", "120px");
@@ -162,7 +172,6 @@ var sketch = function(p){
     p.button.style("font-size", "12px");
     p.button.mousePressed(p.play_what_i_have);
   }
-  
   p.play_what_i_have = function(){
       var percSend = false;
       for (var i=0; i<p.pointArray.length; i++){
@@ -216,12 +225,21 @@ var sketch = function(p){
 
     p.background(200);
 
+    /*
+    *    p.sfx_level_completed = p.loadSound("/assets/sfx_ui/sfx_level_completed.wav");
+    p.ui_menu_forward = p.loadSound("/assets/sfx_ui/ui_menu_forward.wav");
+    p.ui_menu_backwards = p.loadSound("/assets/sfx_ui/ui_menu_backward.wav");
+    p.ui_select_paintcan = p.loadSound("/assets/sfx_ui/ui_select_paintcan.wav");
+    p.ui_select_playback = p.loadSound("/assets/sfx_ui/ui_select_playback.wav");
+    */
     if (p.correct != false){ // are you fucking kidding jake
       //console.log("correct!");
      p.stroke(200);
      p.textSize(30);
       p.text("CORRECT!", 500, p.YSCALE + 300);
+
       //p.textAlign(p.CENTER);
+
     }
 
     p.stroke(0);
@@ -411,6 +429,7 @@ var sketch = function(p){
         p.selected_line = undefined;
       }
       p.correct = false;
+      p.ui_menu_forward.play();
       p.clearPatterns();
       p.levelSelect(curLev + 1);
     }
@@ -437,6 +456,7 @@ var sketch = function(p){
         p.selected_line = undefined;
       }
         p.correct = false;
+        p.ui_menu_backwards.play();
         p.levelSelect(curLev-1);
       }
     }
@@ -444,7 +464,26 @@ var sketch = function(p){
     // p.image(p.question_answer, (innerWidth-450), 0, 35,45);
     p.distance_question = p.dist((window.innerWidth-450), 0, p.mouseX, p.mouseY);
     if(p.distance_question < 45){
-      window.open("/instructions.html", "_blank");
+      window.open("/index.html", "_blank");
+    }
+
+    //the distance from the play what i am supposed to play
+    p.distance_play_what_i_have = p.dist((p.XSCALE)*7, 0, p.mouseX, p.mouseY);
+    if(p.distance_play_what_i_have < 25){
+      if(p.correct = true){
+        console.log('yo');
+        p.sfx_level_completed.play();
+      }
+    }
+
+    p.distance_play_what_i_am_supposed = p.dist((p.XSCALE)*2, 0, p.mouseX, p.mouseY);
+    if(p.distance_play_what_i_am_supposed < 45){
+      p.ui_select_playback.play();
+    }
+
+    p.distance_tutorial_button = p.dist((window.innerWidth-450), 0, p.mouseX, p.mouseY);
+    if(p.distance_tutorial_button < 35){
+      p.ui_select_playback.play();
     }
   }
   p.mouseDragged = function(){
@@ -485,10 +524,13 @@ var sketch = function(p){
   p.keyPressed = function(){
     if (p.keyCode === 49) {
       p.changeGreen();
+      p.ui_select_paintcan.play();
     } else if (p.keyCode === 50) {
       p.changeRed();
+      p.ui_select_paintcan.play();
     } else if (p.keyCode === 51) {
       p.changeBlue();
+      p.ui_select_paintcan.play();
       // p.levelSelect(curLev +1);
     } else if (p.keyCode === 9) {  //tab key
       if (p.selected_line !== undefined){
@@ -703,6 +745,11 @@ var sketch = function(p){
   
 };
 
+
+
+function resetScreen() {
+     location.reload();
+}
 
 
 var main = function(){
