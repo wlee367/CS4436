@@ -1,5 +1,5 @@
 # CS4436
-Game Audio Development
+Selected Topics - Game Audio Development
 
 
 This Repository is for the group project for CS 4436. 
@@ -10,20 +10,34 @@ Members:
 3. Hannah Russwurm
 4. Kennedy KJ
 
-**Note for using P5.js framework**
-I already set up the p5.js framework on my local machine so all you guys have to do is pull it. (Git pull)
-Basically, just make sure your index.html and sketch.js is in a folder with all the js files and addons and modules folder. You can use any text editor such as Sublime or Brackets or the editor of your choice. 
+**Features** 
 
-**We need a local server to do our dev work**
-I am not going to go through setting up Apache on all 3 of your machines, so we're going to use PHP's built in web server function.
-The command is:
+MmmDot is an innovative game that merges creativity and problem solving as users complete puzzles by connecting dots to recreate the music they hear. It is an interactive sound platform, where players will need to replicate musical tracks with visual cues/patterns.
 
+**How To Play**
+
+Use the keyboard numbers 1, 2, or 3 to switch between instruments.
+To draw the line, click on one point and drag to another point.
+To delete the line, click on one point of the line, and press 'tab'.
+To play what you have, press the 'Play What I Have' button
+To listen to what you are supposed to recreate, press the 'Play What I Am Supposed To' button
+At any time you need to see the instructions again, press the question/answer icon on the navigation bar, this will take you back to the front page where you can scroll down to the instructions on the website. 
+
+**To Run locally:**
+
+0) Since the game was designed and developed in Javascript using the P5 framework, your main requirements of running this game locally is the latest version of any web browser. 
+1) Open up your terminal 
+2) Switch to your desired directory location
+3) Run `git clone git@github.com:wlee367/CS4436.git` 
+4) Run `cd CS4436`
+5) The game needs a local server to run locally, to do this, you can use any commands that will start up a local server on your machine, but the command this group has been using is shown below:
 ```php
 php -S localhost:8000
 ```
+7) On the browser of your choice, please visit `localhost:8000`
 
-**Useful video for future use if we want to use an application like Cyberduck to push live to a site domain**
-https://www.youtube.com/watch?v=lbKMZa-CZ_Y&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&t=686
 
-**I think if the PHP command is a little too much** using the [Brackets](http://brackets.io/) editor would be a great tool because of its capability to automatically run a server for you without using php commands or use cyberduck
+**Notable Sources**
+1) [P5.js](https://p5js.org/) is the library that we used heavily to implement the graphics, audio, and the game logic
 
+**In case you have trouble with the terminal command** using the [Brackets](http://brackets.io/) editor to open up our project makes it easy to open the final project, as the Brackets Editor comes with a button that launches a server for you on your behalf. 
