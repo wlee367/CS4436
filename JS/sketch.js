@@ -166,16 +166,6 @@ var sketch = function(p){
     p.button.style("border-color", "purple");
     p.button.style("font-size", "12px");
     p.button.mousePressed(p.play_what_i_have);
-
-      
-    // p.button = p.createButton('Help');
-    // //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
-    // //p.button.position((window.screen.width)/1.5, 0);
-    // p.button.position((p.XSCALE)*28, 0);
-    // p.button.style.position = "relative";
-    // p.button.style("background-color", p.color(25,23,200,50));
-    // p.button.style("font-size", "12px");
-    //p.button.mousepressed()...  
   }
   p.play_what_i_have = function(){
       var percSend = false;
@@ -232,14 +222,13 @@ var sketch = function(p){
 
     if (p.correct != false){ // are you fucking kidding jake
       //console.log("correct!");
-     // p.stroke(200);
-     // p.textSize(30);
-     //  p.text("CORRECT!", 500, p.YSCALE + 300);
-     //  p.textAlign(p.CENTER);
+     p.stroke(200);
+     p.textSize(30);
+      p.text("CORRECT!", 500, p.YSCALE + 300);
+      //p.textAlign(p.CENTER);
     }
 
     p.stroke(0);
-
     //SLIDING PLAY BAR
     if (p.playing === true){
       p.strokeWeight(10);
@@ -338,9 +327,7 @@ var sketch = function(p){
     p.image(p.prev_arrow_button, ((window.innerWidth/2)-95), ((window.innerHeight)/200), 35,45);  //Left arrow
 
     //Draw back button, on pressed this button will take the user back to index.html
-    //ic_arrow_back_black_36px.svg
     p.image(p.back_button, 0, 0, 35,45);
-  
   }
   p.drawLine = function(thisLine){
     if (thisLine.color === 1){
@@ -427,6 +414,7 @@ var sketch = function(p){
         //take away selected line
         p.selected_line = undefined;
       }
+      p.correct = false;
       p.clearPatterns();
       p.levelSelect(curLev + 1);
     }
@@ -452,6 +440,7 @@ var sketch = function(p){
         //take away selected line
         p.selected_line = undefined;
       }
+        p.correct = false;
         p.levelSelect(curLev-1);
       }
     }
