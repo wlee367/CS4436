@@ -464,7 +464,7 @@ var sketch = function(p){
     // p.image(p.question_answer, (innerWidth-450), 0, 35,45);
     p.distance_question = p.dist((window.innerWidth-450), 0, p.mouseX, p.mouseY);
     if(p.distance_question < 45){
-      window.open("/index.html", "_blank");
+      window.open("/instructions.html", "_blank");
     }
 
     //the distance from the play what i am supposed to play
