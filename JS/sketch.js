@@ -184,13 +184,10 @@ var sketch = function(p){
     p.ui_select_paintcan = p.loadSound("/assets/sfx_ui/ui_select_paintcan.wav");
     p.ui_select_playback = p.loadSound("/assets/sfx_ui/ui_select_playback.wav");
     */
-    if (p.correct != false){ // are you fucking kidding jake
-      //console.log("correct!");
+    if (p.correct != false){ 
      p.stroke(200);
      p.textSize(30);
-      p.text("CORRECT!", 500, p.YSCALE + 300);
-
-      //p.textAlign(p.CENTER);
+     p.text("CORRECT!", 500, p.YSCALE + 300);
 
     }
 
@@ -199,8 +196,8 @@ var sketch = function(p){
     if (p.playing === true){
       p.strokeWeight(10);
       p.line(p.x1,window.innerHeight,p.x1,0);
-      p.x1 = p.x1 + (window.innerWidth/28);
-      if (p.x1 >= window.innerWidth){
+      //p.x1 = p.x1 + (window.innerWidth/28);
+      if (p.x1 >= window.innerWidth-p.XSCALE){
         p.x1 = 0;
         p.playing = false;
       }
@@ -684,11 +681,16 @@ var sketch = function(p){
     p.myPart.addPhrase(new p5.Phrase("s",p.playSynth,answerArr[curLev][1]));
     p.myPart.addPhrase(new p5.Phrase("p",p.playPerc,answerArr[curLev][2]));
     p.myPart.start();
+    p.myPart.onStep(function(){
+      p.x1 = p.x1 + p.XSCALE;
+    })
     p.playing = true;
   }
 
   p.playPiano = function(time, playbackRate){
+    console.log(playbackRate);
     p.piano.sArray[playbackRate].play(time);
+
   }
   p.playSynth = function(time, playbackRate){
     p.synth.sArray[playbackRate].play(time);
