@@ -6,9 +6,9 @@ var answerArr = [[  //red, blue, green
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                   ],
                   [
-                   [0,0,0,0,0,0,0,0,0,14,0,9,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                   [0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 9, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                   ], 
                   [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -140,7 +140,7 @@ var sketch = function(p){
     p.canvas = p.createCanvas(window.innerWidth, window.innerHeight); 
     p.reset();
 
-    p.button = p.createButton('PLAY WHAT I AM SUPPOSED TO PLAY');
+    p.button = p.createButton('Play MmmDot');
     //p.button.position((window.innerWidth - window.innerWidth)+100, 0);
     //p.button.position((window.screen.width)/20, 0);
       
@@ -157,7 +157,7 @@ var sketch = function(p){
     p.button.mousePressed(p.playAnswer);
  
 
-    p.button = p.createButton('PLAY WHAT I HAVE');
+    p.button = p.createButton('Play MY MmmDot');
     //p.button.position((window.innerWidth - window.innerWidth)+350, 0);
     //p.button.position((window.screen.width)/3.8, 0);
     p.button.position((p.XSCALE)*7, 0);
@@ -172,55 +172,7 @@ var sketch = function(p){
     p.button.style("font-size", "12px");
     p.button.mousePressed(p.play_what_i_have);
   }
-  p.play_what_i_have = function(){
-      var percSend = false;
-      for (var i=0; i<p.pointArray.length; i++){
-        if (p.pointArray[i].connectedPerc){
-          percSend = true;
-        }   
-      }
 
-      if (p.lineArray.length > 0 || percSend == true){
-      console.log("enter play");
-      //cycle through all boxes
-      for (var h=0; h< p.ySplit; h++){
-        for (var w =0; w< p.xSplit; w++){
-          //cycle through all lines
-          for (var index = 0; index < p.lineArray.length; index++){
-            p.boxArray[h][w].collide(p.lineArray[index]); //finds collision points and updates box class
-          }
-
-          //x-yspots are place in the 16/32 array
-          xspot =p.boxArray[h][w].x/p.XSCALE;
-          yspot =p.boxArray[h][w].y/p.YSCALE;
-
-          //perc collison
-          for (var i=0; i<p.pointArray.length; i++){
-            if (p.pointArray[i].connectedPerc){
-              p.boxArray[h][w].collidePerc(p.pointArray[i]);
-            }   
-          }
-
-          if (p.boxArray[h][w].r === true){
-            p.pianoPat.splice(xspot, 1, yspot);
-          }
-          if (p.boxArray[h][w].b === true){
-            p.synthPat.splice(xspot, 1, yspot);
-          }
-          if (p.boxArray[h][w].g === true){
-            p.percPat.splice(xspot, 1, yspot);
-          }
-      }
-      }        //check for double notes
-      p.pianoPat = p.clean(p.pianoPat);
-      p.synthPat = p.clean(p.synthPat);
-      p.percPat = p.clean(p.percPat);
-      console.log(p.pianoPat);
-      console.log(p.synthPat);
-      console.log(p.percPat);
-      p.playback();
-    }
-  }
   p.draw=function(){
 
     p.background(200);
@@ -343,6 +295,55 @@ var sketch = function(p){
     //Draw back button, on pressed this button will take the user back to index.html
     p.image(p.back_button, 0, 0, 35,45);
   }
+  p.play_what_i_have = function(){
+      var percSend = false;
+      for (var i=0; i<p.pointArray.length; i++){
+        if (p.pointArray[i].connectedPerc){
+          percSend = true;
+        }   
+      }
+
+      if (p.lineArray.length > 0 || percSend == true){
+      console.log("enter play");
+      //cycle through all boxes
+      for (var h=0; h< p.ySplit; h++){
+        for (var w =0; w< p.xSplit; w++){
+          //cycle through all lines
+          for (var index = 0; index < p.lineArray.length; index++){
+            p.boxArray[h][w].collide(p.lineArray[index]); //finds collision points and updates box class
+          }
+
+          //x-yspots are place in the 16/32 array
+          xspot =p.boxArray[h][w].x/p.XSCALE;
+          yspot =p.boxArray[h][w].y/p.YSCALE;
+
+          //perc collison
+          for (var i=0; i<p.pointArray.length; i++){
+            if (p.pointArray[i].connectedPerc){
+              p.boxArray[h][w].collidePerc(p.pointArray[i]);
+            }   
+          }
+
+          if (p.boxArray[h][w].r === true){
+            p.pianoPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].b === true){
+            p.synthPat.splice(xspot, 1, yspot);
+          }
+          if (p.boxArray[h][w].g === true){
+            p.percPat.splice(xspot, 1, yspot);
+          }
+      }
+      }        //check for double notes
+      p.pianoPat = p.clean(p.pianoPat);
+      p.synthPat = p.clean(p.synthPat);
+      p.percPat = p.clean(p.percPat);
+      console.log(p.pianoPat);
+      console.log(p.synthPat);
+      console.log(p.percPat);
+      p.playback();
+    }
+  }
   p.drawLine = function(thisLine){
     if (thisLine.color === 1){
       p.stroke(0,255,0);
@@ -371,7 +372,7 @@ var sketch = function(p){
 
   p.mousePressed = function(){
     //play initial sound based on p.sectionMouseY
-    if (p.clickButt == false){
+    if ( p.mouseY > p.YSCALE){
       p.currentInst.sArray[p.sectionMouseY].play();
       p.played = true;
     }
@@ -467,14 +468,6 @@ var sketch = function(p){
       window.open("/index.html", "_blank");
     }
 
-    //the distance from the play what i am supposed to play
-    p.distance_play_what_i_have = p.dist((p.XSCALE)*7, 0, p.mouseX, p.mouseY);
-    if(p.distance_play_what_i_have < 25){
-      if(p.correct = true){
-        console.log('yo');
-        p.sfx_level_completed.play();
-      }
-    }
 
     p.distance_play_what_i_am_supposed = p.dist((p.XSCALE)*2, 0, p.mouseX, p.mouseY);
     if(p.distance_play_what_i_am_supposed < 45){
@@ -685,7 +678,6 @@ var sketch = function(p){
   }
 
   p.playAnswer = function(){
-    p.clickButt = true;
 
     p.myPart = new p5.Part();
     p.myPart.addPhrase(new p5.Phrase("p",p.playPiano,answerArr[curLev][0]));
