@@ -40,4 +40,10 @@ php -S localhost:8000
 **Notable Sources**
 1) [P5.js](https://p5js.org/) is the library that we used heavily to implement the graphics, audio, and the game logic
 
+2) [p5.collide2D libraries](https://github.com/bmoren/p5.collide2D). p5.collide2D contains some versions of, and references to, the functions in [Jeffrey Thompson's Collision Detection Book](http://www.jeffreythompson.org/collision-detection/). 
+
+3)[His code is CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), so this is too! 
+
+4) The image on index.html is from [here](https://icons8.com/icon/13369/paint-palette).
+
 **In case you have trouble with the terminal command** using the [Brackets](http://brackets.io/) editor to open up our project makes it easy to open the final project, as the Brackets Editor comes with a button that launches a server for you on your behalf. 
