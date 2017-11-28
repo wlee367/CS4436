@@ -348,6 +348,7 @@ var sketch = function(p){
     p.image(p.back_button, 0, 0, 35,45);
   }
   p.play_what_i_have = function(){
+      p.x1 = 0;
       var percSend = false;
       for (var i=0; i<p.pointArray.length; i++){
         if (p.pointArray[i].connectedPerc){
@@ -723,7 +724,7 @@ var sketch = function(p){
   }
 
   p.playAnswer = function(){
-
+    p.x1 = 0;
     p.myPart = new p5.Part();
     p.myPart.addPhrase(new p5.Phrase("p",p.playPiano,answerArr[curLev][0]));
     p.myPart.addPhrase(new p5.Phrase("s",p.playSynth,answerArr[curLev][1]));
